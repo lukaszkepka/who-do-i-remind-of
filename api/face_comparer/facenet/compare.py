@@ -34,7 +34,7 @@ import os
 import copy
 import argparse
 import facenet
-import face_detector.detect_face
+import api.face_detector.detect_face as detect_face
 
 
 def main(args):
@@ -87,14 +87,14 @@ def load_and_align_data(image_paths, image_size, margin, gpu_memory_fraction):
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_memory_fraction)
         sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options, log_device_placement=False))
         with sess.as_default():
-            pnet, rnet, onet = face_detector.detect_face.create_mtcnn(sess, None)
+            pnet, rnet, onet = detect_face.create_mtcnn(sess, None)
 
     tmp_image_paths = copy.copy(image_paths)
     img_list = []
     for image in tmp_image_paths:
         img = misc.imread(os.path.expanduser(image), mode='RGB')
         img_size = np.asarray(img.shape)[0:2]
-        bounding_boxes, _ = face_detector.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
+        bounding_boxes, _ = detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
         if len(bounding_boxes) < 1:
             image_paths.remove(image)
             print("can't detect face, remove ", image)

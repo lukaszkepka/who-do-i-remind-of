@@ -28,18 +28,40 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-from subprocess import Popen, PIPE
 import tensorflow as tf
 import numpy as np
-from scipy import misc
-from sklearn.model_selection import KFold
-from scipy import interpolate
-from tensorflow.python.training import training
+import math
 import random
 import re
+
+from scipy import misc
+from scipy import interpolate
+from sklearn.model_selection import KFold
+from tensorflow.python.training import training
 from tensorflow.python.platform import gfile
-import math
+from subprocess import Popen, PIPE
 from six import iteritems
+
+# 1: Random rotate 2: Random crop  4: Random flip  8:  Fixed image standardization  16: Flip
+RANDOM_ROTATE = 1
+RANDOM_CROP = 2
+RANDOM_FLIP = 4
+FIXED_STANDARDIZATION = 8
+FLIP = 16
+
+
+class ImageClass():
+    "Stores the paths to images for a given class"
+
+    def __init__(self, name, image_paths):
+        self.name = name
+        self.image_paths = image_paths
+
+    def __str__(self):
+        return self.name + ', ' + str(len(self.image_paths)) + ' images'
+
+    def __len__(self):
+        return len(self.image_paths)
 
 
 def triplet_loss(anchor, positive, negative, alpha):
@@ -98,14 +120,6 @@ def shuffle_examples(image_paths, labels):
 def random_rotate_image(image):
     angle = np.random.uniform(low=-10.0, high=10.0)
     return misc.imrotate(image, angle, 'bicubic')
-
-
-# 1: Random rotate 2: Random crop  4: Random flip  8:  Fixed image standardization  16: Flip
-RANDOM_ROTATE = 1
-RANDOM_CROP = 2
-RANDOM_FLIP = 4
-FIXED_STANDARDIZATION = 8
-FLIP = 16
 
 
 def create_input_pipeline(input_queue, image_size, nrof_preprocess_threads, batch_size_placeholder):
@@ -322,20 +336,6 @@ def get_learning_rate_from_file(filename, epoch):
                     learning_rate = lr
                 else:
                     return learning_rate
-
-
-class ImageClass():
-    "Stores the paths to images for a given class"
-
-    def __init__(self, name, image_paths):
-        self.name = name
-        self.image_paths = image_paths
-
-    def __str__(self):
-        return self.name + ', ' + str(len(self.image_paths)) + ' images'
-
-    def __len__(self):
-        return len(self.image_paths)
 
 
 def get_dataset(path, has_class_directories=True):
