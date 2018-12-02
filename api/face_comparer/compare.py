@@ -1,6 +1,7 @@
 import argparse
 import os
 import random
+from urllib.request import urlopen
 import numpy as np
 import math
 import cv2
@@ -23,7 +24,9 @@ def main():
     args = parse_arguments()
 
     # Load image to compare
-    img = misc.imread(os.path.expanduser(args.image_path), mode='RGB')
+    with urlopen(args.image_path) as file:
+        img = misc.imread(file, mode='RGB')
+
     plt.imshow(np.uint8(img))
     plt.title('Query image')
     plt.show()

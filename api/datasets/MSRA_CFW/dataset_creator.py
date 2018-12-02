@@ -72,7 +72,7 @@ def extract(dataset_path, face_detector, face_comparer, take=None):
 
     for person_path in person_paths[:take]:
         name, cropped_face_image, features = extract_person_model(person_path, face_detector, face_comparer)
-        yield name, cropped_face_image, features
+        yield name, cropped_face_image, features, person_path
 
 
 def main():
