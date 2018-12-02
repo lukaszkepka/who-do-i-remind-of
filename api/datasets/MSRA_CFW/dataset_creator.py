@@ -1,4 +1,4 @@
-""" MSRA_CFW/dataset_loader
+""" MSRA_CFW/dataset_creator
 
 Script for iterating through image dataset and save person metadata to database
 arguments :
