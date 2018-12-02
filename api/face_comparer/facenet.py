@@ -29,13 +29,9 @@ from __future__ import print_function
 
 import tensorflow as tf
 import numpy as np
-import math
-import random
 import re
 import os
-import copy
 
-from scipy import misc
 from tensorflow.python.platform import gfile
 
 # 1: Random rotate 2: Random crop  4: Random flip  8:  Fixed image standardization  16: Flip
@@ -51,6 +47,7 @@ class FaceComparer:
     def __init__(self):
         self.initialized = False
         self.face_detector = None
+        self.default_model_path = 'face_comparer\\models\\weights\\20180402-114759'
         self.model_path = ''
 
         self.graph = tf.Graph()

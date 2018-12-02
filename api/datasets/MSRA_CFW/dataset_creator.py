@@ -10,7 +10,7 @@ arguments :
 import argparse
 import os
 import random
-
+import numpy as np
 from scipy import misc
 import api.face_detector.factory as face_detector_factory
 import api.face_comparer.factory as face_comparer_factory
@@ -33,7 +33,7 @@ def list_dirs(path):
 
 
 def extract_name(person_path):
-    person_name = os.path.splitext(person_path)[-1]
+    person_name = os.path.split(person_path)[-1]
     return person_name.capitalize()
 
 
@@ -44,7 +44,7 @@ def extract_cropped_image(person_path, face_detector):
         if os.path.isfile(full_path):
             image_paths.append(full_path)
 
-    image_index = random.randint(0, len(image_paths))
+    image_index = random.randint(0, len(image_paths) - 1)
     image_path = image_paths[image_index]
     face_img = misc.imread(os.path.expanduser(image_path), mode='RGB')
     cropped_face = face_detector.detect_face(face_img)
@@ -52,15 +52,27 @@ def extract_cropped_image(person_path, face_detector):
 
 
 def extract_features(person_image, face_comparer):
+    person_image = np.expand_dims(np.asarray(person_image), axis=0)
     return face_comparer.extract_features(person_image)
 
 
 def extract_person_model(person_path, face_detector, face_comparer):
     name = extract_name(person_path)
     cropped_face_image = extract_cropped_image(person_path, face_detector)
-    features = extract_features(person_path, face_comparer)
+    features = extract_features(cropped_face_image, face_comparer)
 
     return name, cropped_face_image, features
+
+
+def extract(dataset_path, face_detector, face_comparer, take=None):
+    person_paths = list_dirs(dataset_path)
+
+    if take is None:
+        take = len(person_paths)
+
+    for person_path in person_paths[:take]:
+        name, cropped_face_image, features = extract_person_model(person_path, face_detector, face_comparer)
+        yield name, cropped_face_image, features
 
 
 def main():
@@ -72,10 +84,6 @@ def main():
 
     face_comparer = face_comparer_factory.get_face_comparer('default')
     face_comparer.initialize(face_comparer.default_model_path, face_detector)
-
-    person_paths = list_dirs(args.dataset_path)
-    for person_path in person_paths:
-        name, cropped_face_image, features = extract_person_model(person_path, face_detector, face_comparer)
 
     pass
 
