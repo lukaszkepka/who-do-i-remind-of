@@ -10,3 +10,6 @@ Pillow
 requests
 psutil
 flask
+SQLAlchemy
+SQLALchemy-Utils
+pymssql
