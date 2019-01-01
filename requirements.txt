@@ -13,3 +13,4 @@ flask
 SQLAlchemy
 SQLALchemy-Utils
 pymssql
+object-mapper
