@@ -16,10 +16,15 @@ class Person(Base):
     DatasetId = Column(BigInteger, ForeignKey('Datasets.Id'), nullable=False)
     Dataset = relationship('Dataset', backref=backref('Persons', order_by=Id), foreign_keys=[DatasetId])
 
-    def __init__(self, name, surname, birthdate, photoURI, model, dataset_id):
+    def __init__(self, name='', surname='', birthdate='', photoURI='', model='', dataset_id=0):
+        self.Id = 0
         self.Name = name
         self.Surname = surname
         self.BirthDate = birthdate
         self.PhotoURI = photoURI
         self.Model = model
         self.DatasetId = dataset_id
+
+    def __repr__(self):
+        return "<Person(Id=%ld, Name=%s, Surname=%s, BirthDate=%s, PhotoURI=%s, Model=%s, DatasetId=%d)>" \
+               % (self.Id, self.Name, self.Surname, self.BirthDate, self.PhotoURI, self.Model, self.DatasetId)

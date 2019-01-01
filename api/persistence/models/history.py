@@ -13,7 +13,12 @@ class History(Base):
     PersonId = Column(BigInteger, ForeignKey('Persons.Id'), nullable=False)
     Person = relationship('Person', backref=backref('Histories', order_by=Id), foreign_keys=[PersonId])
 
-    def __init__(self, username, matching_ratio, person_id):
+    def __init__(self, username='', matching_ratio=0.0, person_id=0):
+        self.Id = 0
         self.Username = username
         self.MatchingRatio = matching_ratio
         self.PersonId = person_id
+
+    def __repr__(self):
+        return "<History(Id=%ld, Username=%s, MatchingRatio=%f, PersonId=%d)>" \
+               % (self.Id, self.Username, self.MatchingRatio, self.PersonId)

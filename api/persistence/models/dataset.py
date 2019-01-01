@@ -9,5 +9,9 @@ class Dataset(Base):
     Id = Column(BigInteger, primary_key=True)
     Name = Column(String, nullable=False)
 
-    def __init__(self, name):
+    def __init__(self, name=''):
+        self.Id = 0
         self.Name = name
+
+    def __repr__(self):
+        return "<Dataset(Id=%ld, Name=%s)>" % (self.Id, self.Name)
