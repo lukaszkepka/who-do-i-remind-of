@@ -7,24 +7,24 @@ from sqlalchemy.orm import relationship, backref
 class Person(Base):
     __tablename__ = 'Persons'
 
-    Id = Column(BigInteger, primary_key=True)
-    Name = Column(String, nullable=False)
-    Surname = Column(String, nullable=False)
-    BirthDate = Column(DateTime)
-    PhotoURI = Column(String, nullable=False)
-    Model = Column(String, nullable=False)
-    DatasetId = Column(BigInteger, ForeignKey('Datasets.Id'), nullable=False)
-    Dataset = relationship('Dataset', backref=backref('Persons', order_by=Id), foreign_keys=[DatasetId])
+    id = Column('Id', BigInteger, primary_key=True)
+    name = Column('Name', String, nullable=False)
+    surname = Column('Surname', String, nullable=False)
+    birth_date = Column('BirthDate', DateTime)
+    photo_uri = Column('PhotoURI', String, nullable=False)
+    model = Column('Model', String, nullable=False)
+    dataset_id = Column('DatasetId', BigInteger, ForeignKey('Datasets.Id'), nullable=False)
+    dataset = relationship('Dataset', backref=backref('persons', order_by=id), foreign_keys=[dataset_id])
 
     def __init__(self, name='', surname='', birthdate='', photoURI='', model='', dataset_id=0):
-        self.Id = 0
-        self.Name = name
-        self.Surname = surname
-        self.BirthDate = birthdate
-        self.PhotoURI = photoURI
-        self.Model = model
-        self.DatasetId = dataset_id
+        self.id = 0
+        self.name = name
+        self.surname = surname
+        self.birth_date = birthdate
+        self.photo_uri = photoURI
+        self.model = model
+        self.dataset_id = dataset_id
 
     def __repr__(self):
         return "<Person(Id=%ld, Name=%s, Surname=%s, BirthDate=%s, PhotoURI=%s, Model=%s, DatasetId=%d)>" \
-               % (self.Id, self.Name, self.Surname, self.BirthDate, self.PhotoURI, self.Model, self.DatasetId)
+               % (self.id, self.name, self.surname, self.birth_date, self.photo_uri, self.model, self.dataset_id)

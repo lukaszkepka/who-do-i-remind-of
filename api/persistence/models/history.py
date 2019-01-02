@@ -7,18 +7,18 @@ from sqlalchemy.orm import relationship, backref
 class History(Base):
     __tablename__ = 'Histories'
 
-    Id = Column(BigInteger, primary_key=True)
-    Username = Column(String, nullable=False)
-    MatchingRatio = Column(Float, nullable=False)
-    PersonId = Column(BigInteger, ForeignKey('Persons.Id'), nullable=False)
-    Person = relationship('Person', backref=backref('Histories', order_by=Id), foreign_keys=[PersonId])
+    id = Column('Id', BigInteger, primary_key=True)
+    username = Column('Username', String, nullable=False)
+    matching_ratio = Column('MatchingRatio', Float, nullable=False)
+    person_id = Column('PersonId', BigInteger, ForeignKey('Persons.Id'), nullable=False)
+    person = relationship('Person', backref=backref('histories', order_by=id), foreign_keys=[person_id])
 
     def __init__(self, username='', matching_ratio=0.0, person_id=0):
-        self.Id = 0
-        self.Username = username
-        self.MatchingRatio = matching_ratio
-        self.PersonId = person_id
+        self.id = 0
+        self.username = username
+        self.matching_ratio = matching_ratio
+        self.person_id = person_id
 
     def __repr__(self):
         return "<History(Id=%ld, Username=%s, MatchingRatio=%f, PersonId=%d)>" \
-               % (self.Id, self.Username, self.MatchingRatio, self.PersonId)
+               % (self.id, self.username, self.matching_ratio, self.person_id)

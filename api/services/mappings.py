@@ -10,9 +10,9 @@ from api.services.domain_models.person_dm import PersonDomainModel
 mapper = ObjectMapper()
 
 mapper.create_map(Dataset, DatasetDomainModel)
-mapper.create_map(History, HistoryDomainModel, {"Person": lambda history: mapper.map(history.Person, PersonDomainModel)})
-mapper.create_map(Person, PersonDomainModel, {"Dataset": lambda person: mapper.map(person.Dataset, DatasetDomainModel),
-                                              "BirthDate": lambda person: person.BirthDate.strftime('%Y-%m-%d')})
+mapper.create_map(History, HistoryDomainModel, {"person": lambda history: mapper.map(history.person, PersonDomainModel)})
+mapper.create_map(Person, PersonDomainModel, {"dataset": lambda person: mapper.map(person.dataset, DatasetDomainModel),
+                                              "birth_date": lambda person: person.birth_date.strftime('%Y-%m-%d')})
 
 mapper.create_map(DatasetDomainModel, Dataset)
 mapper.create_map(HistoryDomainModel, History)

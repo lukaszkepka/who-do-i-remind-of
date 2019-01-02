@@ -6,12 +6,12 @@ from sqlalchemy import Column
 class Dataset(Base):
     __tablename__ = 'Datasets'
 
-    Id = Column(BigInteger, primary_key=True)
-    Name = Column(String, nullable=False)
+    id = Column('Id', BigInteger, primary_key=True)
+    name = Column('Name', String, nullable=False)
 
     def __init__(self, name=''):
-        self.Id = 0
-        self.Name = name
+        self.id = 0
+        self.name = name
 
     def __repr__(self):
-        return "<Dataset(Id=%ld, Name=%s)>" % (self.Id, self.Name)
+        return "<Dataset(Id=%ld, Name=%s)>" % (self.id, self.name)

@@ -2,12 +2,12 @@
 class HistoryDomainModel:
 
     def __init__(self, username='', matching_ratio=0.0, person_id=0):
-        self.Id = 0
-        self.Username = username
-        self.MatchingRatio = matching_ratio
-        self.PersonId = person_id
-        self.Person = None
+        self.id = 0
+        self.username = username
+        self.matching_ratio = matching_ratio
+        self.person_id = person_id
+        self.person = None
 
     def __repr__(self):
         return "<HistoryDomainModel(Id=%ld, Username=%s, MatchingRatio=%f, PersonId=%d)>" \
-               % (self.Id, self.Username, self.MatchingRatio, self.PersonId)
+               % (self.id, self.username, self.matching_ratio, self.person_id)
