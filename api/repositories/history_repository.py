@@ -28,7 +28,11 @@ class HistoryRepository(BaseRepository):
         history = session.query(History).filter_by(Id=id).first()
         return history
 
-    def get_histories(self, query=True):
+    def get_histories(self, query=True, n=-1):
         session = BaseRepository.get_session(self)
-        histories = session.query(History).filter(query).all()
+        if n == -1:
+            histories = session.query(History).filter(query).all()
+        else:
+            histories = session.query(History).filter(query).limit(n).all()
+
         return list(histories)

@@ -1,33 +1,7 @@
 from flask import request, jsonify
+from api.services.history_service import HistoryService
 from api.web_api import app
-import itertools
-
-matches = [
-    {
-        "id": 1,
-        "username": "user1",
-        "matchedPhotoId": 15,
-        "matchingRatio": 0.67
-    },
-    {
-        "id": 2,
-        "username": "user2",
-        "matchedPhotoId": 89,
-        "matchingRatio": 0.81
-    },
-    {
-        "id": 3,
-        "username": "user3",
-        "matchedPhotoId": 4,
-        "matchingRatio": 0.57
-    },
-    {
-        "id": 4,
-        "username": "user4",
-        "matchedPhotoId": 12,
-        "matchingRatio": 0.53
-    }
-]
+import jsonpickle
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -57,8 +31,17 @@ def get_recent_matches(n=1):
     temp = request.args.get('n')
     if is_int(temp):
         n = int(temp)
-    recent_matches = itertools.islice(matches, n)
-    return jsonify({'matches': list(recent_matches)}), 200
+
+    history_service = HistoryService()
+    recent_matches = history_service.get_recent_histories(n)
+
+    response = app.response_class(
+        response=jsonpickle.encode(recent_matches, make_refs=False, unpicklable=False),
+        status=200,
+        mimetype='application/json'
+    )
+
+    return response
 
 
 def handle_exception(message, status_code):
