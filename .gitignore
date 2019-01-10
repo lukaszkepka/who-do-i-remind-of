@@ -189,3 +189,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# react app
+node_modules/
