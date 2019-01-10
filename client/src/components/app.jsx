@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import AnimateHeight from "react-animate-height";
 
 import NameForm from "./nameForm";
+import DataBaseForm from "./databaseForm";
 import PhotoForm from "./photoForm";
 import ResultPage from "./resultPage";
 import xService from "../services/xService";
@@ -11,8 +11,10 @@ import ErrorPage from "./errorPage";
 import "./app.scss";
 
 const initialState = {
+  dataBases: [],
   userName: "",
   userPhoto: null,
+  dataBase: null,
   isLoading: false,
   hasError: false,
   similarPeople: [],
@@ -27,6 +29,7 @@ export default class App extends Component {
     this.service = new xService();
 
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDataBaseChange = this.handleDataBaseChange.bind(this);
     this.handlePhotoChange = this.handlePhotoChange.bind(this);
     this.handleResetClicked = this.handleResetClicked.bind(this);
     this.showAllResults = this.showAllResults.bind(this);
@@ -34,8 +37,18 @@ export default class App extends Component {
     this.resetUserPhoto = this.resetUserPhoto.bind(this);
   }
 
+  componentDidMount() {
+    this.service
+      .getDataBases()
+      .then(response => this.setState({ dataBases: response }));
+  }
+
   handleNameChange(userName) {
     this.setState({ userName });
+  }
+
+  handleDataBaseChange(baseId) {
+    this.setState({ dataBase: baseId });
   }
 
   handlePhotoChange(userPhoto) {
@@ -77,7 +90,9 @@ export default class App extends Component {
   render() {
     console.log(this.state);
     const {
+      dataBases,
       userName,
+      dataBase,
       userPhoto,
       isLoading,
       similarPeople,
@@ -86,11 +101,20 @@ export default class App extends Component {
     } = this.state;
 
     let content = null;
-    if (!userName) {
+    if (!dataBases.length) {
+      content = <div>Loading...</div>;
+    } else if (!userName) {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
           <NameForm onNameSubmit={this.handleNameChange} />
+        </>
+      );
+    } else if (!dataBase) {
+      content = (
+        <>
+          <h1 className="title">Who do I remind of?</h1>
+          <DataBaseForm onDataBaseSubmit={this.handleDataBaseChange} />
         </>
       );
     } else if (!userPhoto) {
@@ -121,14 +145,12 @@ export default class App extends Component {
           onBackClick={this.hideAllResults}
         />
       );
+    } else {
+      console.log(this.state);
+      console.log("NIGDY NIE POWINIENEM TU WEJŚĆ");
+      content = "NIGDY NIE POWINIENEM TU WEJŚĆ";
     }
 
-    return (
-      <div className="app">
-        <AnimateHeight duration={500} height={"auto"}>
-          {content}
-        </AnimateHeight>
-      </div>
-    );
+    return <div className="app">{content}</div>;
   }
 }

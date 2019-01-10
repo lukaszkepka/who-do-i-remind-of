@@ -24,12 +24,12 @@ module.exports = {
     new MiniCssExtractPlugin({filename: "[name].css"})
   ],
   output: {
-    path: __dirname + "/dist",
+    path: __dirname + "/app-dist",
     publicPath: "/",
     filename: "bundle.js"
   },
   devServer: {
-    contentBase: "./dist",
+    contentBase: "./app-dist",
     hot: true
   }
 };

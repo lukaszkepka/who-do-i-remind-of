@@ -38,4 +38,20 @@ export default class xService {
       );
     });
   }
+
+  getDataBases() {
+    return new Promise(resolve => {
+      setTimeout(
+        () =>
+          resolve(
+            new Array(3).fill(null).map(() => ({
+              name: faker.name.firstName(),
+              description: faker.lorem.paragraph(3),
+              photos: new Array(10).fill(null).map(() => faker.image.avatar()),
+            }))
+          ),
+        1000
+      );
+    });
+  }
 }
