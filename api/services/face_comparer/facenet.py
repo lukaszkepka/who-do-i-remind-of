@@ -47,7 +47,7 @@ class FaceComparer:
     def __init__(self):
         self.initialized = False
         self.face_detector = None
-        self.default_model_path = 'face_comparer\\models\\weights\\20180402-114759'
+        self.default_model_path = 'services\\face_comparer\\models\\weights\\20180402-114759'
         self.model_path = ''
 
         self.graph = tf.Graph()

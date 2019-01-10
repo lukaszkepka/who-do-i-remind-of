@@ -12,8 +12,8 @@ import os
 import random
 import numpy as np
 from scipy import misc
-import api.face_detector.factory as face_detector_factory
-import api.face_comparer.factory as face_comparer_factory
+import api.services.face_detector.factory as face_detector_factory
+import api.services.face_comparer.factory as face_comparer_factory
 
 
 def parse_arguments(argv):

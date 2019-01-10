@@ -1,4 +1,4 @@
-import api.face_detector.PRO.detect_face as PRO
+import api.services.face_detector.PRO.detect_face as PRO
 
 
 def get_face_detector(module):

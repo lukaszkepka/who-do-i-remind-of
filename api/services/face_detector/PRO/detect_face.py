@@ -244,7 +244,7 @@ class FaceDetector:
         bounding_boxes, _ = self.run_detection(image)
 
         if len(bounding_boxes) < 1:
-            print('')
+            raise NotADirectoryError
 
         postprocessed = self.postprocess(image, bounding_boxes)
         return postprocessed

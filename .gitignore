@@ -191,4 +191,4 @@ venv.bak/
 .mypy_cache/
 
 # models
-api/face_comparer/models/*
+api/services/face_comparer/models/*

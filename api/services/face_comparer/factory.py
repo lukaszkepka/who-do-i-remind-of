@@ -1,4 +1,4 @@
-import api.face_comparer.facenet as facenet
+import api.services.face_comparer.facenet as facenet
 
 
 def get_face_comparer(module):
