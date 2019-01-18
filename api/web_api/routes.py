@@ -1,6 +1,8 @@
 from flask import request, jsonify
 from api.services.history_service import HistoryService
+from api.services.matching_process_service import MatchingProcessService
 from api.web_api import app
+import io
 import jsonpickle
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -16,12 +18,15 @@ def run_matching_process():
             return handle_exception("No selected file", 400)
         if not allowed_file(file.filename):
             return handle_exception("Not supported file extension", 400)
-        file_content = file.read()  # file read as binary data
-
+        file_raw_bytes = file.read()
+        image_file = io.BytesIO(file_raw_bytes)
     if 'datasetId' in request.form and is_int(request.form['datasetId']):
         dataset_id = int(request.form['datasetId'])
     else:
         dataset_id = 1
+
+    matching_process_service = MatchingProcessService()
+    matching_process_service.run_matching_process(image_file, dataset_id)
 
     return jsonify({"message": "Temporary response"}), 200
 

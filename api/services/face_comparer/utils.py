@@ -1,6 +1,8 @@
-import matplotlib.pyplot as plt
 import math
 from scipy import misc
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 
 
 def print_matrix(distance_matrix):
@@ -38,4 +40,20 @@ def print_results(faces, distances, names, indexes):
         for j in range(columns):
             axarr[i, j].axis('off')
 
-    plt.show()
+    plt.savefig('image_comparison_set.png')
+
+
+def print_matrix(distance_matrix):
+    # Print distance matrix
+    print('Distance matrix')
+    print('    ', end='')
+    for i in range(distance_matrix.shape[1]):
+        print('    %1d     ' % i, end='')
+    print('')
+    for i in range(distance_matrix.shape[0]):
+        print('%1d  ' % i, end='')
+        for j in range(distance_matrix.shape[1]):
+            dist = distance_matrix[i, j]
+            print('  %1.4f  ' % dist, end='')
+        print('')
+    pass
