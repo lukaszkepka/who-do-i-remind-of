@@ -6,21 +6,23 @@ arguments :
 - dataset_path - path to dataset to iterate
 
 """
-
+import time
+from os.path import isfile, join
+from os import listdir
 import argparse
 import os
-import random
 import numpy as np
 from scipy import misc
 import api.services.face_detector.factory as face_detector_factory
 import api.services.face_comparer.factory as face_comparer_factory
+from api.services.domain_models.person_dm import PersonDomainModel
 
 
-def parse_arguments(argv):
+def parse_arguments():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('dataset_path', type=str)
-    return parser.parse_args(argv)
+    parser.add_argument('-dataset_path', type=str)
+    return parser.parse_args()
 
 
 def list_dirs(path):
@@ -37,16 +39,8 @@ def extract_name(person_path):
     return person_name
 
 
-def extract_cropped_image(person_path, face_detector):
-    image_paths = []
-    for item in os.listdir(person_path):
-        full_path = os.path.join(person_path, item)
-        if os.path.isfile(full_path):
-            image_paths.append(full_path)
-
-    image_index = random.randint(0, len(image_paths) - 1)
-    image_path = image_paths[image_index]
-    face_img = misc.imread(os.path.expanduser(image_path), mode='RGB')
+def extract_cropped_image(person_image_path, face_detector):
+    face_img = misc.imread(os.path.expanduser(person_image_path), mode='RGB')
     cropped_face = face_detector.detect_face(face_img)
     return cropped_face
 
@@ -57,11 +51,31 @@ def extract_features(person_image, face_comparer):
 
 
 def extract_person_model(person_path, face_detector, face_comparer):
+    files = []
+    for file in listdir(person_path):
+        filepath = join(person_path, file)
+        if isfile(filepath):
+            if filepath.endswith('.jpg'):
+                files.append(filepath)
+
+    if len(files) == 0:
+        raise Exception("Error - Path contains no images")
+
+    if len(files) > 1:
+        raise Exception("Error - Path contains more than one image")
+
+    image_path = files[0]
     name = extract_name(person_path)
-    cropped_face_image = extract_cropped_image(person_path, face_detector)
+    cropped_face_image = extract_cropped_image(image_path, face_detector)
     features = extract_features(cropped_face_image, face_comparer)
 
-    return name, cropped_face_image, features
+    # TODO : Update according to new version of PersonDomainModel
+    person_model = PersonDomainModel()
+    person_model.name = name
+    # TODO : Serialize numpy array
+    person_model.model = features
+    person_model.photo_uri = image_path
+    return person_model
 
 
 def extract(dataset_path, face_detector, face_comparer, take=None):
@@ -70,9 +84,17 @@ def extract(dataset_path, face_detector, face_comparer, take=None):
     if take is None:
         take = len(person_paths)
 
-    for person_path in person_paths[:take]:
-        name, cropped_face_image, features = extract_person_model(person_path, face_detector, face_comparer)
-        yield name, cropped_face_image, features, person_path
+    start = time.time()
+    for i, person_path in enumerate(person_paths[:take]):
+        print("Processing {0} ({1}/{2})".format(person_path, i, len(person_paths)))
+
+        try:
+            yield extract_person_model(person_path, face_detector, face_comparer)
+        except Exception as ex:
+            print(ex)
+
+    stop = time.time()
+    print("Processing {0} files took {1:.2f} s".format(len(person_paths), (stop - start)))
 
 
 def main():
@@ -85,7 +107,11 @@ def main():
     face_comparer = face_comparer_factory.get_face_comparer('default')
     face_comparer.initialize(face_comparer.default_model_path, face_detector)
 
-    pass
+    # Run
+    # TODO : Create dataset and add to database. All required fields provide from args
+    for person_model in extract(args.dataset_path, face_detector, face_comparer):
+        pass
+        # TODO : Add to database
 
 
 if __name__ == '__main__':

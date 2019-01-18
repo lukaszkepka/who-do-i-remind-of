@@ -54,7 +54,7 @@ def remove_redundant_images(dir_full_path):
 
     save_index = random.randint(0, len(files_jpg) - 1)
     for i, file in enumerate(files_jpg):
-        if i is not save_index:
+        if i != save_index:
             os.remove(file)
 
     for i, file in enumerate(files_other):
