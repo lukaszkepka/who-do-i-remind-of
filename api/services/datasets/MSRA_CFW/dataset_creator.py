@@ -34,7 +34,7 @@ def list_dirs(path):
 
 def extract_name(person_path):
     person_name = os.path.split(person_path)[-1]
-    return person_name.capitalize()
+    return person_name
 
 
 def extract_cropped_image(person_path, face_detector):
