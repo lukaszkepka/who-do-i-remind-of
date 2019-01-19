@@ -1,12 +1,8 @@
-from api.persistence.database_init import DatabaseInitialization
 from api.persistence.models.person import Person
 from api.repositories.base_repository import BaseRepository
 
 
 class PersonRepository(BaseRepository):
-
-    def get_session(self):
-        return DatabaseInitialization.create_session()
 
     def add_person(self, person):
         if type(person) is not Person:
@@ -30,6 +26,11 @@ class PersonRepository(BaseRepository):
     def get_person(self, id):
         session = BaseRepository.get_session(self)
         person = session.query(Person).filter_by(Id=id).first()
+        return person
+
+    def get_person_by_name(self, name):
+        session = BaseRepository.get_session(self)
+        person = session.query(Person).filter_by(Name=name).first()
         return person
 
     def get_persons(self, query=True):

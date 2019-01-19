@@ -1,7 +1,7 @@
 from flask import Flask
-from api.persistence.database_init import DatabaseInitialization
+from api.persistence.database_init import DatabaseConfig
 
 app = Flask(__name__)
-db_init = DatabaseInitialization()
+DatabaseConfig.config(app)
 
 from api.web_api import routes

@@ -12,6 +12,7 @@ idna==2.7
 flask
 SQLAlchemy
 SQLALchemy-Utils
+flask_sqlalchemy_session
 pymssql
 object-mapper
 jsonpickle
