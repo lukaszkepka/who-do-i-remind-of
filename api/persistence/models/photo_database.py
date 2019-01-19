@@ -3,8 +3,8 @@ from sqlalchemy import BigInteger, String
 from sqlalchemy import Column
 
 
-class Dataset(Base):
-    __tablename__ = 'Datasets'
+class PhotoDatabase(Base):
+    __tablename__ = 'PhotoDatabases'
 
     id = Column('Id', BigInteger, primary_key=True)
     name = Column('Name', String, nullable=False)
@@ -14,4 +14,4 @@ class Dataset(Base):
         self.name = name
 
     def __repr__(self):
-        return "<Dataset(Id=%ld, Name=%s)>" % (self.id, self.name)
+        return "<PhotoDatabase(Id=%ld, Name=%s)>" % (self.id, self.name)
