@@ -15,6 +15,7 @@ import numpy as np
 from scipy import misc
 import api.services.face_detector.factory as face_detector_factory
 import api.services.face_comparer.factory as face_comparer_factory
+from api.services.datasets.exceptions import ImageError, FaceNotFoundError
 from api.services.domain_models.person_dm import PersonDomainModel
 
 
@@ -59,10 +60,10 @@ def extract_person_model(person_path, face_detector, face_comparer):
                 files.append(filepath)
 
     if len(files) == 0:
-        raise Exception("Error - Path contains no images")
+        raise ImageError("Error - Path contains no images")
 
     if len(files) > 1:
-        raise Exception("Error - Path contains more than one image")
+        raise ImageError("Error - Path contains more than one image")
 
     image_path = files[0]
     name = extract_name(person_path)
@@ -72,13 +73,15 @@ def extract_person_model(person_path, face_detector, face_comparer):
     # TODO : Update according to new version of PersonDomainModel
     person_model = PersonDomainModel()
     person_model.name = name
-    # TODO : Serialize numpy array
-    person_model.model = features
+    person_model.model = features.tobytes()
     person_model.photo_uri = image_path
     return person_model
 
 
 def extract(dataset_path, face_detector, face_comparer, take=None):
+    invalid_number_of_images = []
+    images_without_face = []
+
     person_paths = list_dirs(dataset_path)
 
     if take is None:
@@ -90,11 +93,33 @@ def extract(dataset_path, face_detector, face_comparer, take=None):
 
         try:
             yield extract_person_model(person_path, face_detector, face_comparer)
-        except Exception as ex:
+        except FaceNotFoundError as ex:
+            images_without_face.append(person_path)
             print(ex)
+        except ImageError as ex:
+            invalid_number_of_images.append(person_path)
+            print(ex)
+        except Exception as ex:
+            print('Unknown error - {0}'.format(ex))
 
     stop = time.time()
     print("Processing {0} files took {1:.2f} s".format(len(person_paths), (stop - start)))
+
+    generate_report(invalid_number_of_images, images_without_face)
+
+
+def generate_report(invalid_number_of_images, images_without_face):
+    report = open("report.txt", "w+")
+
+    report.write("Folders with invalid number of images :\n")
+    for i in invalid_number_of_images:
+        report.write(i + '\n')
+
+    report.write("Folders with image that doesn't contain face :\n")
+    for i in images_without_face:
+        report.write(i + '\n')
+
+    report.close()
 
 
 def main():
@@ -111,7 +136,7 @@ def main():
     # TODO : Create dataset and add to database. All required fields provide from args
     for person_model in extract(args.dataset_path, face_detector, face_comparer):
         pass
-        # TODO : Add to database
+        # TODO : Add person_model to database
 
 
 if __name__ == '__main__':
