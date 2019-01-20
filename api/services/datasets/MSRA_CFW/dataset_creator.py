@@ -13,10 +13,14 @@ import argparse
 import os
 import numpy as np
 from scipy import misc
+
 import api.services.face_detector.factory as face_detector_factory
 import api.services.face_comparer.factory as face_comparer_factory
+from api.persistence.database_init import DatabaseConfig
+from api.repositories.person_repository import PersonRepository
 from api.services.datasets.exceptions import ImageError, FaceNotFoundError
 from api.services.domain_models.person_dm import PersonDomainModel
+from api.services.person_service import PersonService
 
 
 def parse_arguments():
@@ -132,11 +136,14 @@ def main():
     face_comparer = face_comparer_factory.get_face_comparer('default')
     face_comparer.initialize(face_comparer.default_model_path, face_detector)
 
+    DatabaseConfig.config()
+    person_repository = PersonRepository()
+    person_service = PersonService(person_repository)
     # Run
     # TODO : Create dataset and add to database. All required fields provide from args
     for person_model in extract(args.dataset_path, face_detector, face_comparer):
-        pass
-        # TODO : Add person_model to database
+        person_model.photo_database_id = 1  # temporary fix
+        person_service.add_or_update_person(person_model)
 
 
 if __name__ == '__main__':

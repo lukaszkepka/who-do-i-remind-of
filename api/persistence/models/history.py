@@ -11,14 +11,10 @@ class History(Base):
     username = Column('Username', String, nullable=False)
     matching_ratio = Column('MatchingRatio', Float, nullable=False)
     person_id = Column('PersonId', BigInteger, ForeignKey('Persons.Id'), nullable=False)
-    person = relationship('Person', backref=backref('histories', order_by=id), foreign_keys=[person_id])
+    _person = relationship('Person', backref=backref('_histories', order_by=id), foreign_keys=[person_id])
 
     def __init__(self, username='', matching_ratio=0.0, person_id=0):
         self.id = None
         self.username = username
         self.matching_ratio = matching_ratio
         self.person_id = person_id
-
-    def __repr__(self):
-        return "<History(Id=%ld, Username=%s, MatchingRatio=%f, PersonId=%d)>" \
-               % (self.id, self.username, self.matching_ratio, self.person_id)

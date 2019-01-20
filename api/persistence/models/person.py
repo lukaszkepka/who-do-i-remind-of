@@ -12,8 +12,8 @@ class Person(Base):
     photo_uri = Column('PhotoURI', String, nullable=False)
     model = Column('Model', LargeBinary, nullable=False)
     photo_database_id = Column('PhotoDatabaseId', BigInteger, ForeignKey('PhotoDatabases.Id'), nullable=False)
-    photo_database = relationship('PhotoDatabase', backref=backref('persons', order_by=id),
-                                  foreign_keys=[photo_database_id])
+    _photo_database = relationship('PhotoDatabase', backref=backref('_persons', order_by=id),
+                                   foreign_keys=[photo_database_id])
 
     def __init__(self, name='', photo_uri='', model='', photo_database_id=0):
         self.id = None
@@ -21,7 +21,3 @@ class Person(Base):
         self.photo_uri = photo_uri
         self.model = model
         self.photo_database_id = photo_database_id
-
-    def __repr__(self):
-        return "<Person(Id=%ld, Name=%s, PhotoURI=%s, Model=%s, DatasetId=%d)>" \
-               % (self.id, self.name, self.photo_uri, self.model, self.dataset_id)
