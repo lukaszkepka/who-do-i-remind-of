@@ -16,7 +16,7 @@ class Person(Base):
                                   foreign_keys=[photo_database_id])
 
     def __init__(self, name='', photo_uri='', model='', photo_database_id=0):
-        self.id = 0
+        self.id = None
         self.name = name
         self.photo_uri = photo_uri
         self.model = model

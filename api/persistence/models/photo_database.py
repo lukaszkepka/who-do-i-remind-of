@@ -10,7 +10,7 @@ class PhotoDatabase(Base):
     name = Column('Name', String, nullable=False)
 
     def __init__(self, name=''):
-        self.id = 0
+        self.id = None
         self.name = name
 
     def __repr__(self):

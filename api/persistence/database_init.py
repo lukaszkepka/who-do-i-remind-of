@@ -36,6 +36,6 @@ class DatabaseConfig:
         DatabaseConfig.session_factory = flask_scoped_session(sessionmaker(bind=db_engine), flask_app)
 
     @staticmethod
-    def config(flask_app):
+    def config(flask_app=None):
         engine = DatabaseConfig.init_database()
         DatabaseConfig.create_session_factory(engine, flask_app)

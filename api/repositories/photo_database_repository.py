@@ -15,17 +15,17 @@ class PhotoDatabaseRepository(BaseRepository):
         if type(updated_photo_database) is not PhotoDatabase:
             return
         session = BaseRepository.get_session(self)
-        photo_database = session.query(PhotoDatabase).filter_by(Id=updated_photo_database.Id).first()
+        photo_database = session.query(PhotoDatabase).filter_by(id=updated_photo_database.id).first()
         properties = dir(photo_database)
         for prop in properties:
-            if prop != 'Id' and not prop.startswith('_') and not prop.endswith('_'):
+            if prop != 'id' and not prop.startswith('_') and not prop.endswith('_'):
                 setattr(photo_database, prop, getattr(updated_photo_database, prop))
 
         session.commit()
 
     def get_photo_database(self, id):
         session = BaseRepository.get_session(self)
-        photo_database = session.query(PhotoDatabase).filter_by(Id=id).first()
+        photo_database = session.query(PhotoDatabase).filter_by(id=id).first()
         return photo_database
 
     def get_photo_databases(self, query=True):

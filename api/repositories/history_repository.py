@@ -15,17 +15,17 @@ class HistoryRepository(BaseRepository):
         if type(updated_history) is not History:
             return
         session = BaseRepository.get_session(self)
-        history = session.query(History).filter_by(Id=updated_history.Id).first()
+        history = session.query(History).filter_by(id=updated_history.id).first()
         properties = dir(history)
         for prop in properties:
-            if prop != 'Id' and not prop.startswith('_') and not prop.endswith('_'):
+            if prop != 'id' and not prop.startswith('_') and not prop.endswith('_'):
                 setattr(history, prop, getattr(updated_history, prop))
 
         session.commit()
 
     def get_history(self, id):
         session = BaseRepository.get_session(self)
-        history = session.query(History).filter_by(Id=id).first()
+        history = session.query(History).filter_by(id=id).first()
         return history
 
     def get_histories(self, query=True, n=-1):
