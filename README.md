@@ -3,6 +3,6 @@ Application for finding the most similar person to you among known celebrities, 
 
 # Installation
 
-Download pretrained models and paste them to api/face_comparer_models  
+Download pretrained models and paste them to services\face_comparer\models  
 https://drive.google.com/file/d/1R77HmFADxe87GmoLwzfgMu_HY0IhcyBz/view   
 https://drive.google.com/file/d/1EXPBSXwTaqrSC0OhUdXNmKSh9qJUQ55-/view   
