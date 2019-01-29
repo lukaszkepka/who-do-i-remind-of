@@ -1,5 +1,5 @@
 import numpy as np
-
+from scipy import misc
 import api.services.datasets.MSRA_CFW.dataset_creator as dataset
 from api.dto.comparison_dto import ComparisonDTO
 from api.services.face_comparer.utils import print_results
@@ -8,10 +8,6 @@ from api.services.face_comparer.utils import print_results
 class FeatureMatrix:
 
     def __init__(self, count):
-        # TODO:  To remove
-        self.names = []
-        self.faces = []
-        #
         self.index_id_map = {}
         self.features = np.zeros((count, 512))
 
@@ -28,14 +24,15 @@ class FeatureMatrix:
 
 class ComparerService:
 
-    def __init__(self, face_detector, face_comparer, display_result=False):
+    def __init__(self, face_detector, face_comparer, dataset_service, display_result=False):
         self.display_result = display_result
+        self.dataset_service = dataset_service
         self.face_detector = face_detector
         self.face_comparer = face_comparer
 
     def compare(self, dataset_id, photo, take=10):
         cropped_face = self.face_detector.detect_face(photo)
-        feature_matrix = self.get_feature_matrix(dataset_id)
+        feature_matrix = self.dataset_service.get_feature_matrix(dataset_id)
 
         distance_matrix = self.face_comparer.compare_with_features(cropped_face, feature_matrix.features)
 
@@ -57,21 +54,9 @@ class ComparerService:
 
             # TODO : Get other comparision fields from database
             comparing_results.append(
-                ComparisonDTO(person_id, feature_matrix.names[index], '', feature_matrix.faces[index], distance_matrix[0, index]))
+                ComparisonDTO(person_id, feature_matrix.names[index], '', feature_matrix.faces[index],
+                              distance_matrix[0, index]))
         return comparing_results
-
-    def get_feature_matrix(self, dataset_id):
-        # TODO : Get feature matrix from database (or from cache)
-        dataset_path = 'D:\\Programowanie\\Python\\datasets\\test'
-        images_num = 10
-        feature_matrix = FeatureMatrix(10)
-
-        for i, ret in enumerate(dataset.extract(dataset_path, self.face_detector, self.face_comparer, take=images_num)):
-            feature_matrix.names.append(ret[0])
-            feature_matrix.faces.append(ret[1])
-            feature_matrix.add_feature_vector(i, i, ret[2])
-
-        return feature_matrix
 
     @staticmethod
     def print_results(results):

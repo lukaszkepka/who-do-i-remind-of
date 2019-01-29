@@ -33,8 +33,8 @@ class PersonRepository(BaseRepository):
         person = session.query(Person).filter_by(name=name).first()
         return person
 
-    def get_persons(self, query=True):
+    def get_persons(self, dataset_id):
         session = BaseRepository.get_session(self)
-        persons = session.query(Person).filter(query).all()
+        persons = session.query(Person).filter_by(photo_database_id=dataset_id).all()
         return list(persons)
 

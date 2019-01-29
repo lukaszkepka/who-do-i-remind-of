@@ -139,8 +139,8 @@ def main():
     DatabaseConfig.config()
     person_repository = PersonRepository()
     person_service = PersonService(person_repository)
+
     # Run
-    # TODO : Create dataset and add to database. All required fields provide from args
     for person_model in extract(args.dataset_path, face_detector, face_comparer):
         person_model.photo_database_id = 1  # temporary fix
         person_service.add_or_update_person(person_model)
