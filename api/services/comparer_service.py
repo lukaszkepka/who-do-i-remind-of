@@ -3,7 +3,7 @@ from scipy import misc
 import api.services.datasets.MSRA_CFW.dataset_creator as dataset
 from api.dto.comparison_dto import ComparisonDTO
 from api.services.face_comparer.utils import print_results
-
+import base64
 
 class FeatureMatrix:
 
@@ -24,9 +24,10 @@ class FeatureMatrix:
 
 class ComparerService:
 
-    def __init__(self, face_detector, face_comparer, dataset_service, display_result=False):
+    def __init__(self, face_detector, face_comparer, dataset_service, person_service, display_result=False):
         self.display_result = display_result
         self.dataset_service = dataset_service
+        self.person_service = person_service
         self.face_detector = face_detector
         self.face_comparer = face_comparer
 
@@ -52,10 +53,16 @@ class ComparerService:
         for index in indexes:
             person_id, features = feature_matrix.get_features(index)
 
-            # TODO : Get other comparision fields from database
-            comparing_results.append(
-                ComparisonDTO(person_id, feature_matrix.names[index], '', feature_matrix.faces[index],
-                              distance_matrix[0, index]))
+            try:
+                person = self.person_service.get_person(person_id)
+                with open(person.photo_uri, "rb") as imageFile:
+                    file_content = imageFile.read()
+                    image_base64 = base64.encodebytes(file_content).decode("utf-8")
+
+                comparing_results.append(
+                    ComparisonDTO(person_id, person.name, image_base64, distance_matrix[0, index]))
+            except Exception as ex:
+                print(ex)
         return comparing_results
 
     @staticmethod

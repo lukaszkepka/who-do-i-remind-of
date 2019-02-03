@@ -22,3 +22,9 @@ class PersonService:
         except Exception as ex:
             print(ex)
 
+    def get_person(self, id):
+        try:
+            return self.person_repository.get_person(id)
+        except Exception as ex:
+            print(ex)
+
