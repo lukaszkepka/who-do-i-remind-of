@@ -24,6 +24,7 @@ export default class PhotoForm extends React.Component {
   render() {
     return (
       <div>
+        {this.props.children}
         <form onSubmit={this.handleSubmit}>
         <div className="upload">
           <label htmlFor="photo">

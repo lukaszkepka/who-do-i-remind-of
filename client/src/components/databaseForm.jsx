@@ -3,15 +3,14 @@ import React from "react";
 export default class DataBaseForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: null };
+    this.state = { value: this.props.dataBases[0].id };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-      // TODO hardcoded
-    this.setState({ value: 1 });
+    this.setState({ value: event.target.value });
   }
 
   handleSubmit(event) {
@@ -21,15 +20,25 @@ export default class DataBaseForm extends React.Component {
 
   render() {
     return (
-      
       <form onSubmit={this.handleSubmit}>
         Wybierz bazę:
-        <input
-          type="text"
-          placeholder="Name"
-          value={this.state.value}
-          onChange={this.handleChange}
-        />
+        <select value={this.state.value} onChange={this.handleChange}>
+          {this.props.dataBases.map(base => (
+            <option value={base.id}>{base.name}</option>
+          ))}
+        </select>
+        <div>
+          Description:
+          <p>{this.props.dataBases[this.state.value].description}</p>
+        </div>
+        <div>
+          Example photos:
+          <p>
+            {this.props.dataBases[this.state.value].photos.map(photo => (
+              <img height="100" width="100" src={photo} />
+            ))}
+          </p>
+        </div>
         <div>
           <input type="submit" value="Submit" />
         </div>

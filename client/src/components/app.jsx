@@ -66,7 +66,8 @@ export default class App extends Component {
         console.log("xD");
         this.setState({
           isLoading: false,
-          hasError: true
+          hasError: true,
+          userPhoto: null
         });
       });
   }
@@ -114,20 +115,23 @@ export default class App extends Component {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
-          <DataBaseForm onDataBaseSubmit={this.handleDataBaseChange} />
+          <DataBaseForm
+            dataBases={dataBases}
+            onDataBaseSubmit={this.handleDataBaseChange}
+          />
         </>
       );
     } else if (!userPhoto) {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
-          <PhotoForm onPhotoSubmit={this.handlePhotoChange} />
+          <PhotoForm onPhotoSubmit={this.handlePhotoChange}>
+            {this.state.hasError && <ErrorPage />}
+          </PhotoForm>
         </>
       );
     } else if (isLoading) {
       content = <div>Loading...</div>;
-    } else if (hasError) {
-      content = <ErrorPage onOkClick={this.resetUserPhoto} />;
     } else if (userName && userPhoto && !isLoading && !shouldShowAllResults) {
       content = (
         <ResultPage
