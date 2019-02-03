@@ -28,6 +28,11 @@ class PhotoDatabaseRepository(BaseRepository):
         photo_database = session.query(PhotoDatabase).filter_by(id=id).first()
         return photo_database
 
+    def get_photo_database_by_name(self, name):
+        session = BaseRepository.get_session(self)
+        photo_database = session.query(PhotoDatabase).filter_by(name=name).first()
+        return photo_database
+
     def get_photo_databases(self, query=True):
         session = BaseRepository.get_session(self)
         photo_databases = session.query(PhotoDatabase).filter(query).all()

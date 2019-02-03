@@ -18,9 +18,12 @@ import api.services.face_detector.factory as face_detector_factory
 import api.services.face_comparer.factory as face_comparer_factory
 from api.persistence.database_init import DatabaseConfig
 from api.repositories.person_repository import PersonRepository
+from api.repositories.photo_database_repository import PhotoDatabaseRepository
 from api.services.datasets.exceptions import ImageError, FaceNotFoundError
 from api.services.domain_models.person_dm import PersonDomainModel
+from api.services.domain_models.photo_database_dm import PhotoDatabaseDomainModel
 from api.services.person_service import PersonService
+from api.services.photo_database_service import PhotoDatabaseService
 
 
 def parse_arguments():
@@ -39,9 +42,9 @@ def list_dirs(path):
     return dirs
 
 
-def extract_name(person_path):
-    person_name = os.path.split(person_path)[-1]
-    return person_name
+def extract_name(path):
+    name = os.path.split(path)[-1]
+    return name
 
 
 def extract_cropped_image(person_image_path, face_detector):
@@ -138,12 +141,18 @@ def main():
 
     DatabaseConfig.config()
     person_repository = PersonRepository()
+    photo_database_repository = PhotoDatabaseRepository()
     person_service = PersonService(person_repository)
+    photo_database_service = PhotoDatabaseService(photo_database_repository)
 
-    # Run
-    for person_model in extract(args.dataset_path, face_detector, face_comparer):
-        person_model.photo_database_id = 1  # temporary fix
-        person_service.add_or_update_person(person_model)
+    for photo_database_dir in list_dirs(args.dataset_path):
+        photo_database_name = extract_name(photo_database_dir)
+        photo_database_dm = PhotoDatabaseDomainModel(photo_database_name)
+        photo_database_service.add_or_update_photo_database(photo_database_dm)
+        photo_database = photo_database_service.get_photo_database_by_name(photo_database_name)
+        for person_model in extract(photo_database_dir, face_detector, face_comparer):
+            person_model.photo_database_id = photo_database.id
+            person_service.add_or_update_person(person_model)
 
 
 if __name__ == '__main__':
