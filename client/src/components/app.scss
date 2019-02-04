@@ -3,17 +3,19 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #2b3a42;
+  background: url("./../assets/trianglify.png"); //linear-gradient(to right, #bdd4de, #a6c4e0);
+  // background-size: cover;
 }
 .app {
-  background-color: #3f5765;
-  color: #efefef;
+  background-color: white;
+  color: #6e98ba;
   font-family: Verdana;
-  border-radius: 15px;
+  border-radius: 5px;
   padding: 10px;
   margin: 0 auto;
   margin-top: 15px;
   max-width: 600px;
+  box-shadow: 3px 3px 5px 0px #334f70;
 
   .photo-prreview {
     margin: 0 auto;
@@ -30,28 +32,36 @@ body {
   }
 
   p {
-      margin: 5px;
+    margin: 5px;
   }
 
   .no-margin {
-      margin: 0;
+    margin: 0;
+  }
+
+  .form-title {
+    text-align: center;
+    font-size: 1.5em;
+    color: #6E98BA;
   }
 
   input {
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid #C5D7ED;
     border-radius: 0.25em;
     padding: 0.25em 0.5em;
-    color: rgba(255, 255, 255, 0.5);
+    color: #334F70;
     background: transparent;
     display: block;
     margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   input[type="submit"] {
     border: 1px solid #efefef;
     border-radius: 0.25em;
     color: #efefef;
     background: #2b3a42;
-    margin-top: 10px;
+    height: 26px;
   }
 
   .upload {
@@ -82,10 +92,101 @@ body {
     content: "\21EA";
     margin-right: 5px;
   }
+
+  .base-picker {
+    color: #334F70;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 }
+
 .title {
   text-align: center;
-  color: #bdd4de;
+  color: #334f70;
   margin-top: 0px;
   margin-bottom: 10px;
+}
+
+.container {
+  width: 600px;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  .steps {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: 1fr 20px repeat(3, 1fr) 20px repeat(3, 1fr) 20px 1fr;
+    grid-template-rows: 20px 20px;
+    .step {
+      border-radius: 50%;
+      /* remove if you don't care about IE8 */
+      width: 20px;
+      height: 20px;
+      //padding: 8px;
+      background: #fff;
+      border: 2px solid lightgray;
+      color: lightgray;
+      text-align: center;
+    }
+    .active {
+      border-color: #47AB6C;
+      background: #47AB6C;
+      color:white;
+      font-weight: bold; 
+    }
+    .non-first-step {
+      transition: 0.4s linear;
+      transition-property: all;
+      transition-delay: 0.4s;
+    }
+    .step-name-icon {
+      grid-column-start: 2;
+    }
+    .progressbar1 {
+      grid-column: 3 / 6;
+    }
+    .step-photo-icon {
+      grid-column-start: 6;
+    }
+    .progressbar2 {
+      grid-column: 7 / 10;
+    }
+    .step-database-icon {
+      grid-column-start: 10;
+    }
+    .step-name {
+      grid-row-start: 2;
+      grid-column: 1 / 4;
+    }
+    .step-photo {
+      grid-row-start: 2;
+      grid-column: 5 / 8;
+    }
+    .step-database {
+      grid-row-start: 2;
+      grid-column: 10 / 11;
+    }
+    .progressbar {
+      width: 100%;
+      background-color: lightgray;
+      height: 5px;
+      .innerbar {
+        width: 0%;
+        height: 5px;
+        background-color: #47AB6C;
+        transition: 0.4s linear;
+        transition-property: width;
+      }
+      .max {
+        width: 100%;
+      }
+    }
+    // li {
+    //   list-style-type: none;
+    //   text-transform: uppercase;
+    // }
+  }
 }

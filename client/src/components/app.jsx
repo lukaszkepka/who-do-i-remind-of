@@ -7,6 +7,7 @@ import ResultPage from "./resultPage";
 import xService from "../services/xService";
 import AllResults from "./resultRow";
 import ErrorPage from "./errorPage";
+import StepProgressBar from "./steps";
 
 import "./app.scss";
 
@@ -108,6 +109,7 @@ export default class App extends Component {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
+          <StepProgressBar currentStep={0}/>
           <NameForm onNameSubmit={this.handleNameChange} />
         </>
       );
@@ -115,6 +117,7 @@ export default class App extends Component {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
+          <StepProgressBar currentStep={1}/>
           <DataBaseForm
             dataBases={dataBases}
             onDataBaseSubmit={this.handleDataBaseChange}
@@ -125,6 +128,7 @@ export default class App extends Component {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
+          <StepProgressBar currentStep={2}/>
           <PhotoForm onPhotoSubmit={this.handlePhotoChange}>
             {this.state.hasError && <ErrorPage />}
           </PhotoForm>

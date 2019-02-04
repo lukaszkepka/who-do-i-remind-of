@@ -26,13 +26,18 @@ export default class PhotoForm extends React.Component {
       <div>
         {this.props.children}
         <form onSubmit={this.handleSubmit}>
-        <div className="upload">
-          <label htmlFor="photo">
-            Upload your photo
-            <input id="photo" type="file" onChange={this.handleFileChanged} />
-          </label>
-        </div>
-          <img className="photo-prreview" height="200" width="200" src={this.state.fileUrl} />
+          <img
+            className="photo-prreview"
+            height="200"
+            width="200"
+            src={this.state.fileUrl}
+          />
+          <div className="upload">
+            <label htmlFor="photo">
+              Upload your photo
+              <input id="photo" type="file" onChange={this.handleFileChanged} />
+            </label>
+          </div>
           <input type="submit" value="Submit" />
         </form>
       </div>

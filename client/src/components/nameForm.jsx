@@ -20,17 +20,20 @@ export default class NameForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <>
+        <div className="form-title">Let's Be Friends</div>
+        <form onSubmit={this.handleSubmit}>
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Your name is..."
             value={this.state.value}
             onChange={this.handleChange}
           />
-        <div>
-          <input type="submit" value="Submit" />
-        </div>
-      </form>
+          <div>
+            <input type="submit" value="Next Section" />
+          </div>
+        </form>
+      </>
     );
   }
 }

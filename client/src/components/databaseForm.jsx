@@ -20,29 +20,35 @@ export default class DataBaseForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        Wybierz bazę:
-        <select value={this.state.value} onChange={this.handleChange}>
-          {this.props.dataBases.map(base => (
-            <option value={base.id}>{base.name}</option>
-          ))}
-        </select>
-        <div>
-          Description:
-          <p>{this.props.dataBases[this.state.value].description}</p>
-        </div>
-        <div>
-          Example photos:
-          <p>
-            {this.props.dataBases[this.state.value].photos.map(photo => (
-              <img height="100" width="100" src={photo} />
+      <>
+        <div className="form-title">Choose Your Favourite Group</div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="base-picker">
+            <div>{"<"}</div>
+            <div>{this.props.dataBases[this.state.value].name}</div>
+            <div>{">"}</div>
+          </div>
+          <select value={this.state.value} onChange={this.handleChange}>
+            {this.props.dataBases.map(base => (
+              <option value={base.id}>{base.name}</option>
             ))}
-          </p>
-        </div>
-        <div>
-          <input type="submit" value="Submit" />
-        </div>
-      </form>
+          </select>
+          <div>
+            Description:
+            <p>{this.props.dataBases[this.state.value].description}</p>
+          </div>
+          <div>
+            <p>
+              {this.props.dataBases[this.state.value].photos.map(photo => (
+                <img height="100" width="100" src={photo} />
+              ))}
+            </p>
+          </div>
+          <div>
+            <input type="submit" value="Next Section" />
+          </div>
+        </form>
+      </>
     );
   }
 }
