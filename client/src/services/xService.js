@@ -51,7 +51,7 @@ export default class xService {
               photos: new Array(18).fill(null).map(() => faker.image.avatar()),
             }))
           ),
-        500
+        5000
       );
     });
   }

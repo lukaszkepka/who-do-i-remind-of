@@ -28,7 +28,8 @@ export default class DataBaseForm extends React.Component {
   render() {
     return (
       <>
-        <div className="form-title">Choose Your Favourite Group</div>
+        <div className="form-title">Choose Your Search Group</div>
+        {/* Where would you liek to serach */}
         <form onSubmit={this.handleSubmit}>
           <div className="base-picker">
             <input className="arrow-button" type="button" value="<" onClick={this.handlePreviousClick}/>
