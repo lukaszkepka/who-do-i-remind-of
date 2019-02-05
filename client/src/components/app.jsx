@@ -5,17 +5,18 @@ import DataBaseForm from "./databaseForm";
 import PhotoForm from "./photoForm";
 import ResultPage from "./resultPage";
 import xService from "../services/xService";
-import AllResults from "./resultRow";
+import AllResults from "./resultRows";
 import ErrorPage from "./errorPage";
 import StepProgressBar from "./steps";
+import Loader from "./loader";
 
 import "./app.scss";
 
 const initialState = {
-  dataBases: [],
   userName: "",
   userPhoto: null,
   dataBase: null,
+  isDataBaseSet: false,
   isLoading: false,
   hasError: false,
   similarPeople: [],
@@ -25,7 +26,7 @@ const initialState = {
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = initialState;
+    this.state = {...initialState, dataBases: []};
 
     this.service = new xService();
 
@@ -41,7 +42,9 @@ export default class App extends Component {
   componentDidMount() {
     this.service
       .getDataBases()
-      .then(response => this.setState({ dataBases: response }));
+      .then(response =>
+        this.setState({ dataBases: response, dataBase: response[0] })
+      );
   }
 
   handleNameChange(userName) {
@@ -49,7 +52,7 @@ export default class App extends Component {
   }
 
   handleDataBaseChange(baseId) {
-    this.setState({ dataBase: baseId });
+    this.setState({ dataBase: baseId, isDataBaseSet: true });
   }
 
   handlePhotoChange(userPhoto) {
@@ -95,6 +98,7 @@ export default class App extends Component {
       dataBases,
       userName,
       dataBase,
+      isDataBaseSet,
       userPhoto,
       isLoading,
       similarPeople,
@@ -104,20 +108,25 @@ export default class App extends Component {
 
     let content = null;
     if (!dataBases.length) {
-      content = <div>Loading...</div>;
+      content = (
+        <>
+          <h1 className="title">Who do I remind of?</h1>
+          <Loader />
+        </>
+      );
     } else if (!userName) {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
-          <StepProgressBar currentStep={0}/>
+          <StepProgressBar currentStep={0} />
           <NameForm onNameSubmit={this.handleNameChange} />
         </>
       );
-    } else if (!dataBase) {
+    } else if (!isDataBaseSet) {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
-          <StepProgressBar currentStep={1}/>
+          <StepProgressBar currentStep={1} />
           <DataBaseForm
             dataBases={dataBases}
             onDataBaseSubmit={this.handleDataBaseChange}
@@ -128,30 +137,42 @@ export default class App extends Component {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
-          <StepProgressBar currentStep={2}/>
+          <StepProgressBar currentStep={2} />
           <PhotoForm onPhotoSubmit={this.handlePhotoChange}>
             {this.state.hasError && <ErrorPage />}
           </PhotoForm>
         </>
       );
     } else if (isLoading) {
-      content = <div>Loading...</div>;
+      content = (
+        <>
+          <h1 className="title">Who do I remind of?</h1>
+          <Loader />
+        </>
+      );
     } else if (userName && userPhoto && !isLoading && !shouldShowAllResults) {
       content = (
-        <ResultPage
-          userPhoto={URL.createObjectURL(userPhoto)}
-          userName={userName}
-          similarPeople={similarPeople}
-          onResetClick={this.handleResetClicked}
-          onShowAllResultsClick={this.showAllResults}
-        />
+        <>
+          <h1 className="title">Who do I remind of?</h1>
+          <ResultPage
+            userPhoto={URL.createObjectURL(userPhoto)}
+            userName={userName}
+            similarPeople={similarPeople}
+            onResetClick={this.handleResetClicked}
+            onShowAllResultsClick={this.showAllResults}
+          />
+        </>
       );
     } else if (shouldShowAllResults) {
+      // } if (true) {
       content = (
-        <AllResults
-          onResetClick={this.handleResetClicked}
-          onBackClick={this.hideAllResults}
-        />
+        <>
+          <h1 className="title">Who do I remind of?</h1>
+          <AllResults
+            onResetClick={this.handleResetClicked}
+            onBackClick={this.hideAllResults}
+          />
+        </>
       );
     } else {
       console.log(this.state);

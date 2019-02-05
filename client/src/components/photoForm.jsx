@@ -22,23 +22,39 @@ export default class PhotoForm extends React.Component {
   }
 
   render() {
+    const imagePreview = {
+      backgroundImage: `url(${this.state.fileUrl})`,
+      backgroundSize: "contain",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center"
+    };
     return (
       <div>
+        <div className="form-title">Show Us Your Face</div>
         {this.props.children}
         <form onSubmit={this.handleSubmit}>
-          <img
-            className="photo-prreview"
-            height="200"
-            width="200"
-            src={this.state.fileUrl}
-          />
-          <div className="upload">
+          <div class="upload-btn-wrapper" style={imagePreview}>
+            <button class="btn">
+              {this.state.fileUrl == "" && (
+                <>
+                  <div>&#8682;</div>
+                  <div>Click to Upload</div>
+                </>
+              )}
+            </button>
+            <input
+              type="file"
+              name="myfile"
+              onChange={this.handleFileChanged}
+            />
+          </div>
+          {/* <div className="upload">
             <label htmlFor="photo">
               Upload your photo
               <input id="photo" type="file" onChange={this.handleFileChanged} />
             </label>
-          </div>
-          <input type="submit" value="Submit" />
+          </div> */}
+          <input type="submit" value="Show Result" />
         </form>
       </div>
     );

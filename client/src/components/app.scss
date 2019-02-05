@@ -1,21 +1,25 @@
+@import "./colors";
 body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  background: url("./../assets/trianglify.png"); //linear-gradient(to right, #bdd4de, #a6c4e0);
-  // background-size: cover;
+  background: url("./../assets/trianglify2.png"); //linear-gradient(to right, #bdd4de, #a6c4e0);
+  background-repeat: repeat;
 }
 .app {
-  background-color: white;
-  color: #6e98ba;
-  font-family: Verdana;
+  background-color: $color-app-background;
+  color: $color-text-primary;
+  //font-family: Verdana;
+  font-family: "Concert One", cursive;
   border-radius: 5px;
   padding: 10px;
   margin: 0 auto;
   margin-top: 15px;
+  margin-bottom: 15px;
   max-width: 600px;
-  box-shadow: 3px 3px 5px 0px #334f70;
+  //box-shadow: 3px 3px 5px 0px $color-dark-blue;
+  box-shadow: 0px 0px 5px 0px $color-dark-blue;
 
   .photo-prreview {
     margin: 0 auto;
@@ -42,78 +46,127 @@ body {
   .form-title {
     text-align: center;
     font-size: 1.5em;
-    color: #6E98BA;
+    color: $color-text-primary;
   }
 
   input {
-    border: 2px solid #C5D7ED;
+    border: 2px solid #c5d7ed;
     border-radius: 0.25em;
     padding: 0.25em 0.5em;
-    color: #334F70;
+    color: $color-dark-blue;
     background: transparent;
     display: block;
     margin: 0 auto;
     margin-top: 10px;
     margin-bottom: 10px;
   }
-  input[type="submit"] {
-    border: 1px solid #efefef;
-    border-radius: 0.25em;
-    color: #efefef;
-    background: #2b3a42;
-    height: 26px;
+  input:not([type="text"]):hover {
+    cursor: pointer;
   }
-
-  .upload {
+  input[type="submit"] {
+    border: 1px solid $color-dark-blue;
+    border-radius: 0.25em;
+    color: $color-white;
+    background: $color-green;
+    height: 26px;
+    margin-top: 15px;
+  }
+  .upload-btn-wrapper {
     position: relative;
     overflow: hidden;
-    padding: 8px;
-    text-align: center;
-    background: #dd4b4d;
-    border-radius: 3px;
-    max-width: 200px;
-    margin: 0 auto;
+    display: inline-block;
+    box-shadow: 0px 0px 5px 0px $color-dark-blue;
+    border-radius: 5px;
+    left: calc(50% - 100px);
+    margin-top: 10px;
+    cursor: pointer !important;
+    background: $color-white;
   }
-  .upload input[type="file"] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
+  .btn {
+    border: none;
+    color: $color-light-gray;
+    background-color: transparent;
+    font-size: 20px;
+    font-weight: bold;
+    height: 200px;
+    width: 200px;
     cursor: pointer;
-    opacity: 0;
-  }
-  .upload label {
-    color: #fff;
-  }
-  .upload label:before {
-    content: "\21EA";
-    margin-right: 5px;
-  }
 
+  }
+  .upload-btn-wrapper input[type="file"] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    margin: 0px;
+    height: 200px;
+    cursor: pointer;
+
+  }
+  //-------END UPLOAD-----
+  .photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-rows: auto auto auto;
+    grid-auto-rows: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px $color-dark-blue;
+    // div {
+    //   grid-column: 1 / -1;
+
+    // }
+    img {
+      // object-fit: contain;
+      // height: 100%;
+      width: 100%;
+    }
+  }
   .base-picker {
-    color: #334F70;
+    color: $color-dark-blue;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
     margin-top: 10px;
     margin-bottom: 10px;
+    .base-name {
+      min-width: 150px;
+      text-align: center;
+    }
+    .arrow-button {
+      font-family: "Concert One", cursive;
+      margin: 0;
+      //border-radius: 50%;
+      border: none;
+      font-size: 1.5em;
+    }
+    .arrow-button:active {
+      color: $color-green;
+      font-weight: bold;
+    }
+    .arrow-button:focus {
+      outline: 0;
+    }
   }
+}
+.base-description {
+  text-align: justify;
+  padding-bottom: 10px;
 }
 
 .title {
   text-align: center;
-  color: #334f70;
+  color: $color-dark-blue;
   margin-top: 0px;
   margin-bottom: 10px;
 }
 
 .container {
-  width: 600px;
+  width: 100%;
   margin: 0 auto;
   margin-top: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   .steps {
     display: grid;
     align-items: center;
@@ -126,16 +179,15 @@ body {
       width: 20px;
       height: 20px;
       //padding: 8px;
-      background: #fff;
-      border: 2px solid lightgray;
-      color: lightgray;
+      background: $color-white;
+      border: 2px solid $color-light-gray;
+      color: $color-light-gray;
       text-align: center;
     }
     .active {
-      border-color: #47AB6C;
-      background: #47AB6C;
-      color:white;
-      font-weight: bold; 
+      border-color: $color-green;
+      background: $color-green;
+      color: $color-white;
     }
     .non-first-step {
       transition: 0.4s linear;
@@ -170,13 +222,14 @@ body {
       grid-column: 10 / 11;
     }
     .progressbar {
+      margin-left: 3px;
       width: 100%;
-      background-color: lightgray;
+      background-color: $color-light-gray;
       height: 5px;
       .innerbar {
         width: 0%;
         height: 5px;
-        background-color: #47AB6C;
+        background-color: $color-green;
         transition: 0.4s linear;
         transition-property: width;
       }
@@ -184,9 +237,33 @@ body {
         width: 100%;
       }
     }
-    // li {
-    //   list-style-type: none;
-    //   text-transform: uppercase;
-    // }
+  }
+}
+
+.result-rows {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 10px;
+  .result-row {
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px $color-dark-blue;
+    display: grid;
+    grid-template-columns: 1fr minmax(80px, 120px);
+    grid-template-rows: auto auto auto auto;
+    justify-items: center;
+    align-items: center;
+    background: #c5d7ed33;
+    .user-name {
+      color: $color-green;
+    }
+    .match-ratio-value {
+      font-size: 2em;
+    }
+    img {
+      grid-row: 1 / -1;
+      grid-column-start: 2;
+      width: 100%;
+    }
   }
 }

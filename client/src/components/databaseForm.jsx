@@ -3,18 +3,25 @@ import React from "react";
 export default class DataBaseForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: this.props.dataBases[0].id };
+    this.state = { 
+      index: 0
+    };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
+    this.handlePreviousClick = this.handlePreviousClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
+  handleNextClick() {
+    this.setState({ index: (this.state.index + 1) % this.props.dataBases.length });
+  }
+
+  handlePreviousClick() {
+    this.setState({ index: this.state.index > 0 ? this.state.index - 1 : this.props.dataBases.length - 1});
   }
 
   handleSubmit(event) {
-    this.props.onDataBaseSubmit(this.state.value);
+    this.props.onDataBaseSubmit(this.props.dataBases[this.state.index]);
     event.preventDefault();
   }
 
@@ -24,25 +31,23 @@ export default class DataBaseForm extends React.Component {
         <div className="form-title">Choose Your Favourite Group</div>
         <form onSubmit={this.handleSubmit}>
           <div className="base-picker">
-            <div>{"<"}</div>
-            <div>{this.props.dataBases[this.state.value].name}</div>
-            <div>{">"}</div>
+            <input className="arrow-button" type="button" value="<" onClick={this.handlePreviousClick}/>
+            <div className="base-name">{this.props.dataBases[this.state.index].name}</div>
+            <input className="arrow-button" type="button" value=">" onClick={this.handleNextClick} />
           </div>
-          <select value={this.state.value} onChange={this.handleChange}>
+          {/* <select value={this.state.value} onChange={this.handleChange}>
             {this.props.dataBases.map(base => (
               <option value={base.id}>{base.name}</option>
             ))}
-          </select>
+          </select> */}
           <div>
-            Description:
-            <p>{this.props.dataBases[this.state.value].description}</p>
+            <p className="base-description">{this.props.dataBases[this.state.index].description}</p>
           </div>
-          <div>
-            <p>
-              {this.props.dataBases[this.state.value].photos.map(photo => (
-                <img height="100" width="100" src={photo} />
-              ))}
-            </p>
+          <div className="photos">
+            {/* <div>A few celebrities among this group</div> */}
+            {this.props.dataBases[this.state.index].photos.map(photo => (
+              <img src={photo} />
+            ))}
           </div>
           <div>
             <input type="submit" value="Next Section" />

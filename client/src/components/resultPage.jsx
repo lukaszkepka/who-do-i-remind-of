@@ -28,10 +28,10 @@ export default class ResultPage extends React.Component {
           reminds me of
           <ResultSlider results={this.props.similarPeople} />
         </div>
-        <input type="button" value="Reset" onClick={this.handleReset} />
+        <input type="button" value="Try another photo" onClick={this.handleReset} />
         <input
           type="button"
-          value="Show all results"
+          value="Show other people results"
           onClick={this.handleShowAllResults}
         />
       </div>

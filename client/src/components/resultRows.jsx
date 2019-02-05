@@ -1,6 +1,6 @@
 import React from "react";
 import xService from "../services/xService";
-
+import Loader from "./loader";
 export default class AllResults extends React.Component {
   constructor(props) {
     super(props);
@@ -32,20 +32,26 @@ export default class AllResults extends React.Component {
 
   render() {
     if (this.state.isLoading) {
-      return <div>Loading...</div>;
+      return <Loader />;
     }
     return (
-      <div>
-        {this.state.results.map((result, i) => (
-          <div key={i}>
-            {`${result.userName} reminds me of ${result.celebrityName}`}
-            <img height="50" width="50" src={result.celebrityPhoto} />
-            {`in ${(result.ratio * 100).toFixed()}%`}
-          </div>
-        ))}
-        <input type="button" value="Reset" onClick={this.handleReset} />
+      <>
+        <div className="result-rows">
+          {this.state.results.map((result, i) => (
+            <div className="result-row" key={i}>
+              <div className="user-name">{result.userName} </div>
+              <div> reminds me of </div>
+              <div>{result.celebrityName}</div>
+              <img src={result.celebrityPhoto} />
+              <div className="match-ratio-value">
+                {(result.ratio * 100).toFixed()}%
+              </div>
+            </div>
+          ))}
+        </div>
+        <input type="button" value="Try another photo" onClick={this.handleReset} />
         <input type="button" value="Back" onClick={this.handleBack} />
-      </div>
+      </>
     );
   }
 }
