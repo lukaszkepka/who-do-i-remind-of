@@ -1,5 +1,6 @@
 import math
 from scipy import misc
+import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('Agg')
@@ -21,7 +22,7 @@ def print_matrix(distance_matrix):
     pass
 
 
-def print_results(faces, distances, names, indexes):
+def print_results(faces, distances, names, indexes, shapes):
     columns = 5
     rows = math.ceil(len(faces) / columns)
     f, axarr = plt.subplots(rows, columns)
@@ -31,7 +32,9 @@ def print_results(faces, distances, names, indexes):
         xi = math.floor(i / columns)
         yi = i % columns
 
-        resized_img = misc.imresize(faces[index], (300, 300), interp='bilinear')
+        face = np.frombuffer(faces[index], dtype=np.uint8)
+        face = face.reshape(shapes[index])
+        resized_img = misc.imresize(face, (300, 300), interp='bilinear')
 
         axarr[xi, yi].imshow(resized_img)
         axarr[xi, yi].set_title('{0}\n({1:.2f})'.format(names[index], distances[index]))

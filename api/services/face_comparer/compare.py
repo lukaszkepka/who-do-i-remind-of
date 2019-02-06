@@ -15,7 +15,6 @@ from api.services.person_service import PersonService
 def parse_arguments():
     parser = argparse.ArgumentParser()
 
-    # parser.add_argument('-dataset_path', type=str)
     parser.add_argument('-image_path', type=str)
     return parser.parse_args()
 
@@ -43,7 +42,7 @@ def main():
     person_service = PersonService(person_repository)
 
     comparer_service = ComparerService(face_detector, face_comparer, dataset_service, person_service, display_result=True)
-    comparer_service.compare(1, img)
+    comparer_service.compare(549, img)
 
 
 if __name__ == '__main__':

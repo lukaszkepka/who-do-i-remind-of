@@ -1,9 +1,12 @@
+import os
+
 import numpy as np
 from scipy import misc
 import api.services.datasets.MSRA_CFW.dataset_creator as dataset
 from api.dto.comparison_dto import ComparisonDTO
 from api.services.face_comparer.utils import print_results
 import base64
+import io
 
 class FeatureMatrix:
 
@@ -55,20 +58,19 @@ class ComparerService:
 
             try:
                 person = self.person_service.get_person(person_id)
-                with open(person.photo_uri, "rb") as imageFile:
-                    file_content = imageFile.read()
-                    image_base64 = base64.encodebytes(file_content).decode("utf-8")
-
+                image = misc.imread(person.photo_uri, mode='RGB')
+                image_base64 = base64.encodebytes(image.tobytes()).decode("utf-8")
                 comparing_results.append(
-                    ComparisonDTO(person_id, person.name, image_base64, distance_matrix[0, index]))
+                    ComparisonDTO(person_id, person.name, image_base64, distance_matrix[0, index], image.shape))
             except Exception as ex:
                 print(ex)
         return comparing_results
 
     @staticmethod
     def print_results(results):
-        faces = [result.image for result in results]
+        faces = [base64.decodebytes(result.image.encode()) for result in results]
         distances = [result.similarity_ratio for result in results]
         names = [result.name for result in results]
         indexes = range(len(results))
-        print_results(faces, distances, names, indexes)
+        shapes = [result.image_shape for result in results]
+        print_results(faces, distances, names, indexes, shapes)
