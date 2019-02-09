@@ -8,6 +8,7 @@ from api.services.face_comparer.utils import print_results
 import base64
 import io
 
+
 class FeatureMatrix:
 
     def __init__(self, count):

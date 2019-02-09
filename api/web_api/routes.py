@@ -1,7 +1,8 @@
 from flask import request, jsonify
 from api.services.history_service import HistoryService
-from api.services.matching_process_service import MatchingProcessService
-from api.web_api import app
+from api.web_api import app, ServiceLocator
+from PIL import Image
+import numpy as np
 import io
 import jsonpickle
 
@@ -19,16 +20,21 @@ def run_matching_process():
         if not allowed_file(file.filename):
             return handle_exception("Not supported file extension", 400)
         file_raw_bytes = file.read()
-        image_file = io.BytesIO(file_raw_bytes)
+        image = np.array(Image.open( io.BytesIO(file_raw_bytes)))
     if 'photoDatabaseId' in request.form and is_int(request.form['photoDatabaseId']):
-        photoDatabaseId = int(request.form['photoDatabaseId'])
+        photo_database_id = int(request.form['photoDatabaseId'])
     else:
-        photoDatabaseId = 1
+        photo_database_id = 1
 
-    matching_process_service = MatchingProcessService()
-    matching_process_service.run_matching_process(image_file, photoDatabaseId)
+    matches = ServiceLocator.comparer_service.compare(photo_database_id, image)
 
-    return jsonify({"message": "Temporary response"}), 200
+    response = app.response_class(
+        response=jsonpickle.encode(matches, make_refs=False, unpicklable=False),
+        status=200,
+        mimetype='application/json'
+    )
+
+    return response
 
 
 @app.route('/recentMatches', methods=['GET'])
