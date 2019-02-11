@@ -1,6 +1,7 @@
 from api.repositories.person_repository import PersonRepository
 from api.services.comparer_service import ComparerService
 from api.services.dataset_service import DatasetService
+from api.services.history_service import HistoryService
 from api.services.person_service import PersonService
 
 import api.services.face_detector.factory as face_detector_factory
@@ -10,6 +11,7 @@ class ServiceLocator:
 
     def __init__(self):
         self.person_repository = PersonRepository()
+        self.history_service = HistoryService()
         self.dataset_service = DatasetService()
         self.person_service = PersonService(self.person_repository)
         self.face_comparer = face_comparer_factory.get_face_comparer('default')
