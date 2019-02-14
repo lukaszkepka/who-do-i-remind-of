@@ -15,7 +15,7 @@ export default class xService {
             }))
           ),
             // reject("xd"),
-        1000
+        100
       );
     });
   }
@@ -34,7 +34,7 @@ export default class xService {
               ratio: faker.finance.amount(0, 1, 2)
             }))
           ),
-        1000
+        100
       );
     });
   }
@@ -51,7 +51,7 @@ export default class xService {
               photos: new Array(18).fill(null).map(() => faker.image.avatar()),
             }))
           ),
-        5000
+        100
       );
     });
   }

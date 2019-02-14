@@ -1,5 +1,6 @@
 import React from "react";
 import ResultSlider from "./resultSlider";
+import PhotoSlider from "./photoSlider";
 
 export default class ResultPage extends React.Component {
   constructor(props) {
@@ -26,7 +27,8 @@ export default class ResultPage extends React.Component {
             {this.props.userName}
           </div>
           reminds me of
-          <ResultSlider results={this.props.similarPeople} />
+          <PhotoSlider />
+          {/* <ResultSlider results={this.props.similarPeople} /> */}
         </div>
         <input type="button" value="Try another photo" onClick={this.handleReset} />
         <input

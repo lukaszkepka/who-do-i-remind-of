@@ -1,0 +1,41 @@
+@import "./colors";
+
+.photo-slider {
+  display: flex;
+  position: relative;
+  align-items: center;
+  .photo {
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    //background: yellowgreen;
+    // border: 1px solid black;
+    box-shadow: 0px 0px 5px 0px $color-dark-blue;
+    transition: all 1s;
+  }
+  .static {
+    transition: none;
+  }
+  .primary {
+    z-index: 4;
+    left: 75px;
+    height: 200px;
+    width: 200px;
+  }
+  .secondary {
+    z-index: 3;
+  }
+  .tertiary {
+    z-index: 2;
+  }
+  .quaternary {
+    z-index: 1;
+  }
+
+  .left {
+    left: 0px;
+  }
+  .right {
+    left: 200px;
+  }
+}
