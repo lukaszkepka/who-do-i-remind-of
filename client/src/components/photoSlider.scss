@@ -3,21 +3,27 @@
 .photo-slider {
   display: flex;
   position: relative;
-  align-items: center;
+  // align-items: center;
   .photo {
     position: absolute;
+    top: 25px;
     height: 150px;
     width: 150px;
     //background: yellowgreen;
     // border: 1px solid black;
     box-shadow: 0px 0px 5px 0px $color-dark-blue;
-    transition: all 1s;
+    transition: all 0.5s;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
   .static {
     transition: none;
   }
   .primary {
     z-index: 4;
+    top: 0px;
     left: 75px;
     height: 200px;
     width: 200px;
@@ -34,8 +40,20 @@
 
   .left {
     left: 0px;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .right {
     left: 200px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .who {
+    align-self: flex-end;
+    text-align: center;
+    width: 100%;
   }
 }

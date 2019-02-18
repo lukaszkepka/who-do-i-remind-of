@@ -34,6 +34,11 @@ body {
     flex-direction: column;
     text-align: center;
   }
+  .uploaded-photo {
+    object-fit: contain;
+    background: white;
+    box-shadow: 0px 0px 5px 0px $color-dark-blue;
+  }
 
   p {
     margin: 5px;
@@ -63,6 +68,7 @@ body {
   input:not([type="text"]):hover {
     cursor: pointer;
   }
+  .green-button,
   input[type="submit"] {
     border: 1px solid $color-dark-blue;
     border-radius: 0.25em;
@@ -150,6 +156,7 @@ body {
     }
   }
 }
+
 .base-description {
   text-align: justify;
   padding-bottom: 10px;
@@ -238,6 +245,12 @@ body {
       }
     }
   }
+}
+
+.result-page {
+  display: grid;
+  grid-template-columns: 200px auto 350px;
+  grid-gap: 10px;
 }
 
 .result-rows {

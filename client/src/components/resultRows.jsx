@@ -49,8 +49,8 @@ export default class AllResults extends React.Component {
             </div>
           ))}
         </div>
-        <input type="button" value="Try another photo" onClick={this.handleReset} />
-        <input type="button" value="Back" onClick={this.handleBack} />
+        <input type="button" className="green-button" value="Try another photo" onClick={this.handleReset} />
+        <input type="button" className="green-button" value="Back" onClick={this.handleBack} />
       </>
     );
   }
