@@ -7,7 +7,7 @@ from api.dto.comparison_dto import ComparisonDTO
 from api.services.face_comparer.utils import print_results
 import base64
 import io
-
+from definitions import ROOT_DIR
 
 class FeatureMatrix:
 
@@ -59,8 +59,11 @@ class ComparerService:
 
             try:
                 person = self.person_service.get_person(person_id)
-                image = misc.imread(person.photo_uri, mode='RGB')
-                image_base64 = base64.encodebytes(image.tobytes()).decode("utf-8")
+                person_photo_abs_path = os.path.join(ROOT_DIR, person.photo_uri)
+                with open(person_photo_abs_path, "rb") as imageFile:
+                    image_base64 = base64.encodebytes(imageFile.read()).decode("utf-8")
+                image = misc.imread(person_photo_abs_path, mode='RGB')
+                print(image_base64)
                 comparing_results.append(
                     ComparisonDTO(person_id, person.name, image_base64, distance_matrix[0, index], image.shape))
             except Exception as ex:

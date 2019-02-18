@@ -24,6 +24,7 @@ from api.services.domain_models.person_dm import PersonDomainModel
 from api.services.domain_models.photo_database_dm import PhotoDatabaseDomainModel
 from api.services.person_service import PersonService
 from api.services.photo_database_service import PhotoDatabaseService
+from definitions import ROOT_DIR
 
 
 def parse_arguments():
@@ -77,11 +78,11 @@ def extract_person_model(person_path, face_detector, face_comparer):
     cropped_face_image = extract_cropped_image(image_path, face_detector)
     features = extract_features(cropped_face_image, face_comparer)
 
-    # TODO : Update according to new version of PersonDomainModel
+    image_rel_path = os.path.relpath(image_path, ROOT_DIR)
     person_model = PersonDomainModel()
     person_model.name = name
     person_model.model = features.tobytes()
-    person_model.photo_uri = image_path
+    person_model.photo_uri = image_rel_path
     return person_model
 
 
