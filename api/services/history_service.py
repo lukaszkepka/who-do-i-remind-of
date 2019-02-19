@@ -15,14 +15,13 @@ class HistoryService:
         self.person_service = person_service
         self.history_repo = HistoryRepository()
 
-    def get_recent_histories_dtos(self, n:int):
+    def get_recent_histories_dtos(self, n: int):
         historiesDTO = []
         historiesDM = self.get_recent_histories(n)
         for historyDM in historiesDM:
             person = self.person_service.get_person(historyDM.person_id)
 
             history_dto = HistoryDTO()
-            history_dto.created_on = historyDM.created_on
             history_dto.matching_ratio = historyDM.matching_ratio
             history_dto.person_id = historyDM.person_id
             history_dto.username = historyDM.username
@@ -32,7 +31,6 @@ class HistoryService:
             historiesDTO.append(history_dto)
 
         return historiesDTO
-
 
     def get_recent_histories(self, n: int):
         histories = self.history_repo.get_histories(True, n)

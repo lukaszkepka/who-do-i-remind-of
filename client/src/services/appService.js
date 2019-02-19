@@ -1,5 +1,6 @@
 import faker from "faker";
 import axios from "axios";
+import Axios from "axios";
 
 export default class xService {
   getSimilarPeople(_photo, _databaseId) {
@@ -15,29 +16,17 @@ export default class xService {
               ratio: faker.finance.amount(0, 1, 2)
             }))
           ),
-            // reject("xd"),
+        // reject("xd"),
         100
       );
     });
   }
 
   getAllResults() {
-    return new Promise(resolve => {
-      setTimeout(
-        () =>
-          resolve(
-            new Array(10).fill(null).map(() => ({
-              userName: faker.name.firstName(),
-              celebrityPhoto: faker.image.avatar(),
-              celebrityName: faker.fake(
-                "{{name.lastName}}, {{name.firstName}}"
-              ),
-              ratio: faker.finance.amount(0, 1, 2)
-            }))
-          ),
-        100
-      );
-    });
+    return axios({
+      method: 'get',
+      url: 'http://localhost:5000/recentMatches'
+    }).then(response => response.data)
   }
 
   getDataBases() {
