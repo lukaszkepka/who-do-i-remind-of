@@ -1,3 +1,5 @@
+import base64
+
 from flask import request, jsonify
 from api.services.history_service import HistoryService
 from api.services.datasets.exceptions import FaceNotFoundError
@@ -34,8 +36,9 @@ def run_matching_process():
         # Get matches
         matches = ServiceLocator.comparer_service.compare(photo_database_id, image)
 
+        image_base64 = base64.b64encode(file_raw_bytes).decode("utf-8")
         # Save history
-        ServiceLocator.history_service.add_history_entry(matches, request.form['userName'])
+        ServiceLocator.history_service.add_history_entry(matches, request.form['userName'], image_base64)
 
         response = app.response_class(
             headers={

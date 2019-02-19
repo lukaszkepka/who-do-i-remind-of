@@ -25,6 +25,7 @@ class HistoryService:
             history_dto.matching_ratio = historyDM.matching_ratio
             history_dto.person_id = historyDM.person_id
             history_dto.username = historyDM.username
+            history_dto.user_photo = historyDM.user_image_base64
             history_dto.match_name = person.name
             history_dto.match_photo = ImageHelper.read_image_as_base64_string(os.path.join(ROOT_DIR, person.photo_uri))
 
@@ -40,7 +41,7 @@ class HistoryService:
 
         return historiesDM
 
-    def add_history_entry(self, matches, user_name):
+    def add_history_entry(self, matches, user_name, user_image_base64):
         if len(matches) < 1:
             raise Exception('Matches are empty')
 
@@ -49,5 +50,6 @@ class HistoryService:
         history_entry.person_id = best_match.person_id
         history_entry.matching_ratio = best_match.similarity_ratio
         history_entry.username = user_name
+        history_entry.user_image_base64 = user_image_base64
 
         self.history_repo.add_history(history_entry)

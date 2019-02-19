@@ -144,7 +144,7 @@ def main():
     person_repository = PersonRepository()
     photo_database_repository = PhotoDatabaseRepository()
     person_service = PersonService(person_repository)
-    photo_database_service = PhotoDatabaseService(photo_database_repository)
+    photo_database_service = PhotoDatabaseService(photo_database_repository, person_repository)
 
     for photo_database_dir in list_dirs(args.dataset_path):
         photo_database_name = extract_name(photo_database_dir)
