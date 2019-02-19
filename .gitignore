@@ -196,3 +196,5 @@ venv.bak/
 
 # models
 api/services/face_comparer/models/*
+# react app
+node_modules/

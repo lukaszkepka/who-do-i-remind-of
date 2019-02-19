@@ -1,0 +1,282 @@
+@import "./colors";
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: url("./../assets/trianglify2.png"); //linear-gradient(to right, #bdd4de, #a6c4e0);
+  background-repeat: repeat;
+}
+.app {
+  background-color: $color-app-background;
+  color: $color-text-primary;
+  //font-family: Verdana;
+  font-family: "Concert One", cursive;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  max-width: 600px;
+  //box-shadow: 3px 3px 5px 0px $color-dark-blue;
+  box-shadow: 0px 0px 5px 0px $color-dark-blue;
+
+  .photo-prreview {
+    margin: 0 auto;
+    margin-top: 10px;
+    display: block;
+  }
+
+  .flex {
+    display: flex;
+  }
+  .vertical {
+    flex-direction: column;
+    text-align: center;
+  }
+  .uploaded-photo {
+    object-fit: contain;
+    background: white;
+    box-shadow: 0px 0px 5px 0px $color-dark-blue;
+  }
+
+  p {
+    margin: 5px;
+  }
+
+  .no-margin {
+    margin: 0;
+  }
+
+  .form-title {
+    text-align: center;
+    font-size: 1.5em;
+    color: $color-text-primary;
+  }
+
+  input {
+    border: 2px solid #c5d7ed;
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    color: $color-dark-blue;
+    background: transparent;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  input:not([type="text"]):hover {
+    cursor: pointer;
+  }
+  .green-button,
+  input[type="submit"] {
+    border: 1px solid $color-dark-blue;
+    border-radius: 0.25em;
+    color: $color-white;
+    background: $color-green;
+    height: 26px;
+    margin-top: 15px;
+  }
+  .upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    box-shadow: 0px 0px 5px 0px $color-dark-blue;
+    border-radius: 5px;
+    left: calc(50% - 100px);
+    margin-top: 10px;
+    cursor: pointer !important;
+    background: $color-white;
+  }
+  .btn {
+    border: none;
+    color: $color-light-gray;
+    background-color: transparent;
+    font-size: 20px;
+    font-weight: bold;
+    height: 200px;
+    width: 200px;
+    cursor: pointer;
+
+  }
+  .upload-btn-wrapper input[type="file"] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    margin: 0px;
+    height: 200px;
+    cursor: pointer;
+
+  }
+  //-------END UPLOAD-----
+  .photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-rows: auto auto auto;
+    grid-auto-rows: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px $color-dark-blue;
+    // div {
+    //   grid-column: 1 / -1;
+
+    // }
+    img {
+      // object-fit: contain;
+      // height: 100%;
+      width: 100%;
+    }
+  }
+  .base-picker {
+    color: $color-dark-blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    .base-name {
+      min-width: 150px;
+      text-align: center;
+    }
+    .arrow-button {
+      font-family: "Concert One", cursive;
+      margin: 0;
+      //border-radius: 50%;
+      border: none;
+      font-size: 1.5em;
+    }
+    .arrow-button:active {
+      color: $color-green;
+      font-weight: bold;
+    }
+    .arrow-button:focus {
+      outline: 0;
+    }
+  }
+}
+
+.base-description {
+  text-align: justify;
+  padding-bottom: 10px;
+}
+
+.title {
+  text-align: center;
+  color: $color-dark-blue;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 30px;
+  .steps {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: 1fr 20px repeat(3, 1fr) 20px repeat(3, 1fr) 20px 1fr;
+    grid-template-rows: 20px 20px;
+    .step {
+      border-radius: 50%;
+      /* remove if you don't care about IE8 */
+      width: 20px;
+      height: 20px;
+      //padding: 8px;
+      background: $color-white;
+      border: 2px solid $color-light-gray;
+      color: $color-light-gray;
+      text-align: center;
+    }
+    .active {
+      border-color: $color-green;
+      background: $color-green;
+      color: $color-white;
+    }
+    .non-first-step {
+      transition: 0.4s linear;
+      transition-property: all;
+      transition-delay: 0.4s;
+    }
+    .step-name-icon {
+      grid-column-start: 2;
+    }
+    .progressbar1 {
+      grid-column: 3 / 6;
+    }
+    .step-photo-icon {
+      grid-column-start: 6;
+    }
+    .progressbar2 {
+      grid-column: 7 / 10;
+    }
+    .step-database-icon {
+      grid-column-start: 10;
+    }
+    .step-name {
+      grid-row-start: 2;
+      grid-column: 1 / 4;
+    }
+    .step-photo {
+      grid-row-start: 2;
+      grid-column: 5 / 8;
+    }
+    .step-database {
+      grid-row-start: 2;
+      grid-column: 10 / 11;
+    }
+    .progressbar {
+      margin-left: 3px;
+      width: 100%;
+      background-color: $color-light-gray;
+      height: 5px;
+      .innerbar {
+        width: 0%;
+        height: 5px;
+        background-color: $color-green;
+        transition: 0.4s linear;
+        transition-property: width;
+      }
+      .max {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.result-page {
+  display: grid;
+  grid-template-columns: 200px auto 350px;
+  grid-gap: 10px;
+}
+
+.result-rows {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 10px;
+  .result-row {
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px $color-dark-blue;
+    display: grid;
+    grid-template-columns: 1fr minmax(80px, 120px);
+    grid-template-rows: auto auto auto auto;
+    justify-items: center;
+    align-items: center;
+    background: #c5d7ed33;
+    .user-name {
+      color: $color-green;
+    }
+    .match-ratio-value {
+      font-size: 2em;
+    }
+    img {
+      grid-row: 1 / -1;
+      grid-column-start: 2;
+      width: 100%;
+    }
+  }
+}
