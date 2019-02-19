@@ -69,6 +69,11 @@ class ComparerService:
                 print(ex)
         return comparing_results
 
+    # def calculate_similarity_percent(self, distance):
+    #     if 0.95 > distance > 0:
+    #         return 100.0
+    #     else
+
     @staticmethod
     def print_results(results):
         faces = [result.image for result in results]

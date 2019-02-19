@@ -38,6 +38,10 @@ def run_matching_process():
         ServiceLocator.history_service.add_history_entry(matches, request.form['userName'])
 
         response = app.response_class(
+            headers={
+                "Access-Control-Allow-Origin":"*",
+                "Access-Control-Allow-Headers":"Origin, X-Requested-With, Content-Type, Accept"
+            },
             response=jsonpickle.encode(matches, make_refs=False, unpicklable=False),
             status=200,
             mimetype='application/json'
@@ -57,7 +61,28 @@ def get_recent_matches(n=10):
     recent_matches = ServiceLocator.history_service.get_recent_histories_dtos(n)
 
     response = app.response_class(
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+        },
         response=jsonpickle.encode(recent_matches, make_refs=False, unpicklable=False),
+        status=200,
+        mimetype='application/json'
+    )
+
+    return response
+
+
+@app.route('/photoDatabases', methods=['GET'])
+def get_photo_databases(photo_examples_count=5):
+    temp = request.args.get('photoExamplesCount')
+    if is_int(temp):
+        photo_examples_count = int(temp)
+
+    photo_databases = ServiceLocator.photo_database_service.get_photo_databases_with_examples(photo_examples_count)
+
+    response = app.response_class(
+        response=jsonpickle.encode(photo_databases, make_refs=False, unpicklable=False),
         status=200,
         mimetype='application/json'
     )

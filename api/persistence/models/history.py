@@ -15,8 +15,10 @@ class History(Base):
     person_id = Column('PersonId', BigInteger, ForeignKey('Persons.Id'), nullable=False)
     _person = relationship('Person', backref=backref('_histories', order_by=id), foreign_keys=[person_id])
 
-    def __init__(self, username='', matching_ratio=0.0, person_id=0):
+    def __init__(self, username='', matching_ratio=0.0, person_id=0, user_photo='', match_photo=''):
         self.id = None
+        self.user_photo = user_photo
+        self.match_photo = match_photo
         self.username = username
         self.matching_ratio = matching_ratio
         self.person_id = person_id
