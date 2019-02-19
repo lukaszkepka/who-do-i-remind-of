@@ -61,7 +61,7 @@ class ComparerService:
                 person = self.person_service.get_person(person_id)
                 person_photo_abs_path = os.path.join(ROOT_DIR, person.photo_uri)
                 with open(person_photo_abs_path, "rb") as imageFile:
-                    image_base64 = base64.encodebytes(imageFile.read()).decode("utf-8")
+                    image_base64 = base64.b64encode(imageFile.read()).decode("utf-8")
                 image = misc.imread(person_photo_abs_path, mode='RGB')
                 comparing_results.append(
                     ComparisonDTO(person_id, person.name, image, distance_matrix[0, index], image_base64, image.shape))
