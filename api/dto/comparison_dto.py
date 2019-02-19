@@ -1,10 +1,11 @@
 
 class ComparisonDTO:
 
-    def __init__(self, person_id=0, name='', image='', similarity_ratio=0.0, shape=None):
+    def __init__(self, person_id=0, name='', image='', similarity_ratio=0.0, image_base64='', shape=None):
         self.person_id = person_id
         self.name = name
         self.image = image
+        self.image_base64 = image_base64
         self.similarity_ratio = similarity_ratio
         self.image_shape = shape
 
