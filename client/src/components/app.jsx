@@ -139,7 +139,7 @@ export default class App extends Component {
           <h1 className="title">Who do I remind of?</h1>
           <StepProgressBar currentStep={2} />
           <PhotoForm onPhotoSubmit={this.handlePhotoChange}>
-            {this.state.hasError && <ErrorPage />}
+            {hasError && <ErrorPage />}
           </PhotoForm>
         </>
       );
@@ -164,7 +164,6 @@ export default class App extends Component {
         </>
       );
     } else if (shouldShowAllResults) {
-      // } if (true) {
       content = (
         <>
           <h1 className="title">Who do I remind of?</h1>
