@@ -1,7 +1,8 @@
 import faker from "faker";
+import axios from "axios";
 
 export default class xService {
-  getSimilarPeople(_photo) {
+  getSimilarPeople(_photo, _databaseId) {
     return new Promise((resolve, reject) => {
       setTimeout(
         () =>

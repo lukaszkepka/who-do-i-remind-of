@@ -30,6 +30,7 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "faker": "^4.1.0",
     "react": "^16.6.3",
     "react-animate-height": "^2.0.7",

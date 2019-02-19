@@ -1,5 +1,5 @@
 import React from "react";
-import xService from "../services/xService";
+import xService from "../services/appService";
 import Loader from "./loader";
 export default class AllResults extends React.Component {
   constructor(props) {

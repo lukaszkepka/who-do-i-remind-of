@@ -4,7 +4,7 @@ import NameForm from "./nameForm";
 import DataBaseForm from "./databaseForm";
 import PhotoForm from "./photoForm";
 import ResultPage from "./resultPage";
-import xService from "../services/xService";
+import xService from "../services/appService";
 import AllResults from "./resultRows";
 import ErrorPage from "./errorPage";
 import StepProgressBar from "./steps";
@@ -58,7 +58,7 @@ export default class App extends Component {
   handlePhotoChange(userPhoto) {
     this.setState({ userPhoto, isLoading: true });
     this.service
-      .getSimilarPeople(userPhoto)
+      .getSimilarPeople(userPhoto, this.state.dataBase)
       .then(response =>
         this.setState({
           similarPeople: response,
