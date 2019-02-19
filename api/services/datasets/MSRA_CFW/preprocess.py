@@ -5,13 +5,17 @@ It deletes redundant images from person directory leaving only one representativ
 Image to be left is choosen randomly
 
 """
-
+import PIL
+import cv2
+from scipy import misc
 import time
 from os import listdir
 from os.path import isfile, join
 import random
 import argparse
 import os
+
+from PIL import Image
 
 
 def parse_arguments():
@@ -61,6 +65,16 @@ def remove_redundant_images(dir_full_path):
         os.remove(file)
 
 
+def resize_image(dir_full_path):
+    files = listdir(dir_full_path)
+    if len(files) == 1:
+        img_path = os.path.join(dir_full_path, files[0])
+        # Load image to compare
+        img = misc.imread(img_path, mode='RGB')
+        img = cv2.resize(img.astype('uint8'), dsize=(640, 640))
+        misc.imsave(img_path, img)
+
+
 def log_progress(dir_full_path):
     print('Finished processing path = {0}'.format(dir_full_path))
 
@@ -74,6 +88,7 @@ def main():
 
         capitalize_name(dir_full_path)
         remove_redundant_images(dir_full_path)
+        resize_image(dir_full_path)
         log_progress(dir_full_path)
 
     stop = time.time()
