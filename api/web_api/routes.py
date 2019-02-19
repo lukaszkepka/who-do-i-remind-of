@@ -65,6 +65,23 @@ def get_recent_matches(n=10):
     return response
 
 
+@app.route('/photoDatabases', methods=['GET'])
+def get_photo_databases(photo_examples_count=5):
+    temp = request.args.get('photoExamplesCount')
+    if is_int(temp):
+        photo_examples_count = int(temp)
+
+    photo_databases = ServiceLocator.photo_database_service.get_photo_databases_with_examples(photo_examples_count)
+
+    response = app.response_class(
+        response=jsonpickle.encode(photo_databases, make_refs=False, unpicklable=False),
+        status=200,
+        mimetype='application/json'
+    )
+
+    return response
+
+
 def handle_exception(message, status_code):
     response = jsonify({'message': message})
     response.status_code = status_code
