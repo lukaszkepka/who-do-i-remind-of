@@ -49,13 +49,12 @@ def run_matching_process():
 
 
 @app.route('/recentMatches', methods=['GET'])
-def get_recent_matches(n=1):
+def get_recent_matches(n=10):
     temp = request.args.get('n')
     if is_int(temp):
         n = int(temp)
 
-    history_service = HistoryService()
-    recent_matches = history_service.get_recent_histories(n)
+    recent_matches = ServiceLocator.history_service.get_recent_histories_dtos(n)
 
     response = app.response_class(
         response=jsonpickle.encode(recent_matches, make_refs=False, unpicklable=False),

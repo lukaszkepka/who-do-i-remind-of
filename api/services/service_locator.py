@@ -11,9 +11,9 @@ class ServiceLocator:
 
     def __init__(self):
         self.person_repository = PersonRepository()
-        self.history_service = HistoryService()
         self.dataset_service = DatasetService()
         self.person_service = PersonService(self.person_repository)
+        self.history_service = HistoryService(self.person_service)
         self.face_comparer = face_comparer_factory.get_face_comparer('default')
         self.face_detector = face_detector_factory.get_face_detector('default')
         self.comparer_service = ComparerService(self.face_detector, self.face_comparer, self.dataset_service,
